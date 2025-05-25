@@ -59,7 +59,7 @@ const Music: React.FC = () => {
       year: '2025', 
       genre: 'Hip-Hop • Acoustic',
       tracks: 6,
-      image: null,
+      image: '/Garden.png',
       featured: false,
       description: 'Cultivating hope for the future through music',
       color: '#ec4899',
