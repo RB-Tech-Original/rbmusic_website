@@ -1,0 +1,11 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+Disallow: /private/
+Disallow: /admin/
+
+# Sitemap location
+Sitemap: https://rbmusic.rbtechsa.com/sitemap.xml
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1

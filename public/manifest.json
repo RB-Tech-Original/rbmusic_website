@@ -1,0 +1,29 @@
+{
+  "short_name": "RB MUSIC",
+  "name": "RB MUSIC - Official Website of RB.CEO",
+  "description": "Official music website of RB.CEO - Hip-Hop & Acoustic Music Producer",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "LogoRBTECH_MUSIC.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "logo512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#6366f1",
+  "background_color": "#0f0f23",
+  "categories": ["music", "entertainment"],
+  "scope": "/",
+  "orientation": "portrait-primary"
+}
