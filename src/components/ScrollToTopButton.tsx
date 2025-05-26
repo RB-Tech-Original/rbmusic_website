@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Fab, Zoom, useScrollTrigger, useTheme } from '@mui/material';
+import { Fab, Zoom, useScrollTrigger } from '@mui/material';
 import { KeyboardArrowUp } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 
 const ScrollToTopButton: React.FC = () => {
-  const theme = useTheme();
   const [showButton, setShowButton] = useState(false);
   
   // Use MUI's useScrollTrigger for better performance
