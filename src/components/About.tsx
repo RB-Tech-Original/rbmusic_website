@@ -8,10 +8,11 @@ import {
   Grid,
 } from '@mui/material';
 import {
-  Mic,
-  Piano,
   QueueMusic,
-  Headphones,
+  Psychology,
+  AutoAwesome,
+  SmartToy,
+  Equalizer,
 } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import { fadeInUp, staggerContainer, staggerItem } from '../utils/animations';
@@ -19,27 +20,25 @@ import { SiApplemusic, SiItunes, SiSpotify, SiTidal, } from 'react-icons/si';
 
 const About: React.FC = () => {
 
-
   const skills = [
     {
-      icon: <Mic sx={{ fontSize: 40 }} />,
-      title: 'Lyrical Mastery',
-      description: 'Crafting authentic narratives that resonate with real-life experiences, delivering powerful messages through carefully constructed wordplay and rhythmic flow.',
+      icon: <Psychology sx={{ fontSize: 40 }} />,
+      title: 'AI Neural Composition',
+      description: 'Leveraging advanced neural networks to create unique melodies and harmonies that blend human creativity with artificial intelligence innovation.',
     },
     {
-      icon: <Piano sx={{ fontSize: 40 }} />,
-      title: 'Acoustic Arrangement',
-      description: 'Creating intimate musical landscapes using acoustic instruments, focusing on melody and harmony to evoke deep emotional connections.',
+      icon: <AutoAwesome sx={{ fontSize: 40 }} />,
+      title: 'Intelligent Lyrical Generation',
+      description: 'Utilizing AI-powered language models to craft authentic narratives and wordplay that resonate with modern experiences and emotions.',
     },
     {
-      icon: <QueueMusic sx={{ fontSize: 40 }} />,
-      title: 'Production Excellence',
-      description: 'Utilizing cutting-edge studio technology and innovative production techniques to create professionally polished tracks that stand out in the industry.',
-    },
-    {
-      icon: <Headphones sx={{ fontSize: 40 }} />,
-      title: 'Audio Engineering',
-      description: 'Ensuring exceptional sound quality through meticulous mixing and mastering processes, optimized for all listening environments and platforms.',
+      icon: <SmartToy sx={{ fontSize: 40 }} />,
+      title: 'AI Production Mastery',
+      description: 'Pioneering the fusion of artificial intelligence with music production, creating sounds that push the boundaries of traditional composition.',
+    },    {
+      icon: <Equalizer sx={{ fontSize: 40 }} />,
+      title: 'Neural Audio Engineering',
+      description: 'Implementing AI-driven mixing and mastering processes to achieve unprecedented audio quality with precise frequency balancing and spatial enhancement.',
     },
   ];
 
@@ -81,21 +80,21 @@ const About: React.FC = () => {
             scale: 1.02,
             transition: { duration: 0.3 }
           }}
-        >
-          <Typography
+        >          <Typography
             variant="h2"
             component="h2"
             sx={{
               textAlign: 'center',
               mb: 2,
-              fontSize: { xs: '2.5rem', md: '3.5rem' },
+              fontSize: { xs: '2.5rem', md: '4rem' },
               fontWeight: 800,
-              background: 'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)',
+              background: 'linear-gradient(135deg, #00d4ff 0%, #6366f1 50%, #ec4899 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
               position: 'relative',
-              textShadow: '0 0 30px rgba(99, 102, 241, 0.3)',
+              textShadow: '0 0 30px rgba(0, 212, 255, 0.3)',
+              animation: 'glow 2s ease-in-out infinite alternate',
               '&::after': {
                 content: '""',
                 position: 'absolute',
@@ -104,12 +103,17 @@ const About: React.FC = () => {
                 transform: 'translateX(-50%)',
                 width: '100px',
                 height: '4px',
-                background: 'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)',
+                background: 'linear-gradient(135deg, #00d4ff 0%, #6366f1 50%, #ec4899 100%)',
                 borderRadius: '2px',
                 opacity: 0.8,
+              },
+              '@keyframes glow': {
+                '0%': { filter: 'brightness(1) drop-shadow(0 0 20px rgba(0, 212, 255, 0.3))' },
+                '100%': { filter: 'brightness(1.2) drop-shadow(0 0 30px rgba(0, 212, 255, 0.5))' },
               }
             }}
-          >            The Artist Behind the Music
+          >
+            The AI Behind the Revolution
           </Typography>
         </motion.div>
 
@@ -131,10 +135,10 @@ const About: React.FC = () => {
               lineHeight: 1.8,
             }}
           >
-            Since 2025, RB MUSIC has been on a relentless journey of artistic evolution, 
-            transforming personal experiences into musical masterpieces. From underground 
-            freestyle sessions to professional studio productions, this journey represents 
-            dedication, authenticity, and an unwavering commitment to musical excellence.
+            Since 2025, RB MUSIC has pioneered the fusion of artificial intelligence and music creation, 
+            becoming the world's first AI song producer. Through cutting-edge neural networks and 
+            machine learning algorithms, we're revolutionizing how music is composed, produced, and experienced, 
+            creating authentic sounds that bridge human emotion with artificial intelligence innovation.
           </Typography>
         </motion.div>
 
@@ -269,8 +273,7 @@ const About: React.FC = () => {
           initial="initial"
           whileInView="animate"
           viewport={{ once: true, amount: 0.3 }}
-        >
-          <Typography
+        >          <Typography
             variant="h3"
             component="h3"
             sx={{
@@ -278,14 +281,15 @@ const About: React.FC = () => {
               mb: 6,
               fontSize: { xs: '2rem', md: '2.5rem' },
               fontWeight: 700,
-              color: 'white',
+              background: 'linear-gradient(135deg, #00d4ff 0%, #6366f1 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
             }}
           >
-            Musical Expertise
+            AI Music Capabilities
           </Typography>
-        </motion.div>
-
-        <motion.div
+        </motion.div>        <motion.div
           variants={staggerContainer}
           initial="initial"
           whileInView="animate"
@@ -426,13 +430,13 @@ const About: React.FC = () => {
                 sx={{
                   fontWeight: 700,
                   mb: 3,
-                  background: 'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)',
+                  background: 'linear-gradient(135deg, #00d4ff 0%, #6366f1 50%, #ec4899 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text',
                 }}
               >
-                Our Vision
+                Our AI Vision
               </Typography>
               <Typography
                 variant="body1"
@@ -444,9 +448,10 @@ const About: React.FC = () => {
                   margin: '0 auto',
                 }}
               >
-                To bridge the gap between Hip-Hop's powerful storytelling and Acoustic music's 
-                intimate expression. We create authentic music that honors both genres while 
-                building connections across cultures and communities through universal rhythms and melodies.
+                To revolutionize music creation through artificial intelligence, becoming the bridge between 
+                human creativity and machine precision. We're pioneering a new era where AI doesn't replace 
+                the artist but enhances musical expression, creating authentic compositions that resonate 
+                with both technological innovation and emotional depth.
               </Typography>
             </CardContent>
           </Card>

@@ -1,0 +1,160 @@
+{
+  "albums": [
+    {
+      "id": "another-worlds-stories",
+      "title": "Another Worlds Stories",
+      "year": "2025",
+      "genre": "AI Hip-Hop • Acoustic Fusion",
+      "tracks": 6,
+      "image": "/Another_Worlds_Stories_-_Cover.png",
+      "featured": true,
+      "color": "#6366f1",
+      "streams": "10K+",
+      "rating": 4.8,
+      "status": "released",
+      "aiFeatures": ["Neural Composition", "Lyrical AI", "Smart Mixing"],
+      "trackList": [
+        {
+          "title": "The Last Dawn",
+          "duration": "3:47",
+          "featured": false,
+          "aiGenerated": true
+        },
+        {
+          "title": "Here Alone",
+          "duration": "3:10",
+          "featured": false,
+          "aiGenerated": true
+        },
+        {
+          "title": "Here Alone (Calm)",
+          "duration": "2:45",
+          "featured": false,
+          "aiGenerated": true
+        },
+        {
+          "title": "Last God",
+          "duration": "2:51",
+          "featured": false,
+          "aiGenerated": true
+        },
+        {
+          "title": "World's Fate",
+          "duration": "2:51",
+          "featured": false,
+          "aiGenerated": true
+        },
+        {
+          "title": "Your Past My Future",
+          "duration": "2:53",
+          "featured": false,
+          "aiGenerated": true
+        }
+      ]
+    },
+    {
+      "id": "tomorrows-garden",
+      "title": "Tomorrow's Garden",
+      "year": "2025",
+      "genre": "AI Hip-Hop • Acoustic Fusion",
+      "tracks": 6,
+      "image": "/Garden.png",
+      "featured": true,
+      "color": "#ec4899",
+      "streams": "5k+",
+      "rating": 4.8,
+      "status": "released",
+      "aiFeatures": ["Deep Learning Beats", "AI Harmonies", "Predictive Lyrics"],
+      "trackList": [
+        {
+          "title": "Garden of Secrets",
+          "duration": "3:18",
+          "featured": false,
+          "aiGenerated": true
+        },
+        {
+          "title": "The Letter Unfolds",
+          "duration": "2:23",
+          "featured": false,
+          "aiGenerated": true
+        },
+        {
+          "title": "Through the Window",
+          "duration": "2:28",
+          "featured": false,
+          "aiGenerated": true
+        },
+        {
+          "title": "Garden's Trees",
+          "duration": "2:44",
+          "featured": false,
+          "aiGenerated": true
+        },
+        {
+          "title": "My Friends Our Moment",
+          "duration": "2:48",
+          "featured": false,
+          "aiGenerated": true
+        },
+        {
+          "title": "Gold Memories",
+          "duration": "3:14",
+          "featured": false,
+          "aiGenerated": true
+        }
+      ]
+    },
+    {
+      "id": "forged_in_time",
+      "title": "Forged In Time",
+      "year": "2025",
+      "genre": "AI Hip-Hop • Acoustic Fusion",
+      "tracks": 6,
+      "image": "/Forged_In_Time.png",
+      "featured": true,
+      "color": "#ec4899",
+      "streams": "2.5k+",
+      "rating": 4.8,
+      "status": "released",
+      "aiFeatures": ["Deep Learning Beats", "AI Harmonies", "Predictive Lyrics"],
+      "trackList": [
+        {
+          "title": "Will of Steel",
+          "duration": "3:33",
+          "featured": false,
+          "aiGenerated": true
+        },
+        {
+          "title": "Diamond Dawn",
+          "duration": "3:19",
+          "featured": false,
+          "aiGenerated": true
+        },
+        {
+          "title": "Silver Roads",
+          "duration": "3:28",
+          "featured": false,
+          "aiGenerated": true
+        },
+        {
+          "title": "Golden Hour",
+          "duration": "3:32",
+          "featured": false,
+          "aiGenerated": true
+        },
+        {
+          "title": "Ember's Glow",
+          "duration": "X:XX",
+          "featured": false,
+          "aiGenerated": true
+        },
+        {
+          "title": "Crystal Clear",
+          "duration": "X:XX",
+          "featured": false,
+          "aiGenerated": true
+        }
+      ]
+    }
+  ]
+}

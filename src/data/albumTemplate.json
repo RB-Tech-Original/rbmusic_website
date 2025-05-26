@@ -1,0 +1,31 @@
+{
+  "newAlbumTemplate": {
+    "id": "album-id-here",
+    "title": "Album Title",
+    "year": "2025",
+    "genre": "AI Hip-Hop • Genre",
+    "tracks": 0,
+    "image": "/album-cover.png",
+    "featured": true,
+    "color": "#6366f1",
+    "streams": "0K+",
+    "rating": 4.5,
+    "status": "released",
+    "aiFeatures": ["Feature 1", "Feature 2", "Feature 3"],
+    "trackList": [
+      {
+        "title": "Track Title",
+        "duration": "3:00",
+        "featured": false,
+        "aiGenerated": true
+      }
+    ]
+  },
+  "instructions": {
+    "addingNewAlbum": "Copy the newAlbumTemplate, fill in your data, and add it to the albums array in albums.json",
+    "albumId": "Use lowercase, hyphen-separated format (e.g., 'my-new-album')",
+    "colors": "Use hex colors that match your album theme",
+    "aiFeatures": "List the AI technologies used in creating this album",
+    "trackList": "Add all tracks with their durations and featured status"
+  }
+}

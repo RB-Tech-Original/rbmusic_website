@@ -5,8 +5,9 @@ import {
   Button,
   Container,
   CircularProgress,
+  Chip,
 } from '@mui/material';
-import { PlayArrow, MusicNote, Album, Pause } from '@mui/icons-material';
+import { PlayArrow, MusicNote, Album, Pause, Psychology, AutoAwesome, Lightbulb } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import { fadeInUp, floatingAnimation, pulseAnimation } from '../utils/animations';
 import { useAudioPlayer } from '../hooks/useAudioPlayer';
@@ -84,11 +85,38 @@ const Hero: React.FC = () => {
         alignItems: 'center',
         position: 'relative',
         overflow: 'hidden',
-        pt: 8,        background: `
-          radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
-          radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 50%),
-          radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.05) 0%, transparent 50%)
+        pt: 8,
+        background: `
+          radial-gradient(circle at 20% 20%, rgba(0, 245, 255, 0.08) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(99, 102, 241, 0.12) 0%, transparent 50%),
+          radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.08) 0%, transparent 50%),
+          linear-gradient(135deg, rgba(15, 15, 35, 0.95) 0%, rgba(20, 20, 45, 0.95) 100%)
         `,
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          inset: 0,
+          background: `
+            repeating-linear-gradient(
+              90deg,
+              transparent,
+              transparent 98px,
+              rgba(0, 245, 255, 0.02) 100px
+            ),
+            repeating-linear-gradient(
+              0deg,
+              transparent,
+              transparent 98px,
+              rgba(99, 102, 241, 0.02) 100px
+            )
+          `,
+          opacity: 0.3,
+          animation: 'gridMove 20s linear infinite',
+        },
+        '@keyframes gridMove': {
+          '0%': { transform: 'translate(0, 0)' },
+          '100%': { transform: 'translate(100px, 100px)' },
+        },
       }}
     >{/* Enhanced Animated Background Particles */}
       {[...Array(8)].map((_, i) => (
@@ -189,7 +217,49 @@ const Hero: React.FC = () => {
                 />
               </motion.div>
             </Box>
-          </motion.div>          {/* Main Title with Enhanced Animation */}
+          </motion.div>
+
+          {/* AI Badge */}
+          <motion.div
+            variants={fadeInUp}
+            initial="initial"
+            animate="animate"
+            transition={{ delay: 0.1 }}
+            style={{ marginBottom: '1rem' }}
+          >
+            <Chip
+              icon={<Psychology sx={{ color: '#00f5ff !important' }} />}
+              label="FIRST AI SONG PRODUCER"
+              variant="outlined"
+              sx={{
+                px: 2,
+                py: 0.5,
+                fontSize: '0.85rem',
+                fontWeight: 700,
+                letterSpacing: '1px',
+                background: 'linear-gradient(135deg, rgba(0, 245, 255, 0.1) 0%, rgba(99, 102, 241, 0.1) 100%)',
+                backdropFilter: 'blur(20px)',
+                border: '1px solid rgba(0, 245, 255, 0.3)',
+                color: '#00f5ff',
+                '& .MuiChip-icon': {
+                  color: '#00f5ff',
+                },
+                animation: 'glow 2s ease-in-out infinite alternate',
+                '@keyframes glow': {
+                  '0%': { 
+                    boxShadow: '0 0 20px rgba(0, 245, 255, 0.2)',
+                    border: '1px solid rgba(0, 245, 255, 0.3)'
+                  },
+                  '100%': { 
+                    boxShadow: '0 0 30px rgba(0, 245, 255, 0.4)',
+                    border: '1px solid rgba(0, 245, 255, 0.5)'
+                  },
+                },
+              }}
+            />
+          </motion.div>
+
+          {/* Main Title with Enhanced Animation */}
           <motion.div
             variants={fadeInUp}
             initial="initial"
@@ -198,22 +268,46 @@ const Hero: React.FC = () => {
               scale: 1.02,
               textShadow: '0 0 60px rgba(99, 102, 241, 0.5)'
             }}
-          >
-            <Typography
+          >            <Typography
               variant="h1"
               component="h1"
               sx={{
-                fontSize: { xs: '3rem', md: '5.5rem' },
+                fontSize: { xs: '3rem', md: '6rem' },
                 fontWeight: 900,
-                mb: 2,                background: 'linear-gradient(135deg, #6366f1 0%, #ec4899 50%, #8b5cf6 100%)',
+                mb: 1,
+                background: 'linear-gradient(135deg, #00f5ff 0%, #6366f1 25%, #ec4899 50%, #8b5cf6 75%, #00f5ff 100%)',
+                backgroundSize: '200% 200%',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
                 textShadow: '0 0 40px rgba(99, 102, 241, 0.4)',
                 transition: 'all 0.3s ease',
+                animation: 'gradient 3s ease infinite',
+                '@keyframes gradient': {
+                  '0%': { backgroundPosition: '0% 50%' },
+                  '50%': { backgroundPosition: '100% 50%' },
+                  '100%': { backgroundPosition: '0% 50%' },
+                },
               }}
             >
               RB MUSIC
+            </Typography>
+            
+            {/* AI Subtitle */}
+            <Typography
+              variant="h4"
+              component="div"
+              sx={{
+                fontSize: { xs: '0.9rem', md: '1.2rem' },
+                fontWeight: 600,
+                color: '#00f5ff',
+                textTransform: 'uppercase',
+                letterSpacing: '3px',
+                mb: 2,
+                textShadow: '0 0 20px rgba(0, 245, 255, 0.5)',
+              }}
+            >
+              Artificial Intelligence · Music Production
             </Typography>
           </motion.div>          {/* Subtitle with Genre Updates */}
           <motion.div
@@ -252,23 +346,23 @@ const Hero: React.FC = () => {
             initial="initial"
             animate="animate"
             transition={{ delay: 0.6 }}
-          >
-            <Typography
+          >            <Typography
               variant="body1"
               sx={{
                 fontSize: { xs: '1.1rem', md: '1.3rem' },
                 mb: 4,
                 color: 'rgba(255, 255, 255, 0.8)',
-                maxWidth: '650px',
+                maxWidth: '750px',
                 margin: '0 auto 2rem',
                 lineHeight: 1.8,
                 fontWeight: 400,
                 letterSpacing: '0.5px',
               }}
             >
-              Dive into authentic rhythms and raw storytelling. From street beats to 
-              soulful acoustic melodies, experience music that speaks to the heart 
-              and moves the soul.
+              🚀 <strong>Breaking boundaries in music creation.</strong> As the first AI song producer, 
+              we blend cutting-edge artificial intelligence with authentic musical expression. 
+              Experience the future of music where technology meets soul, creating beats that 
+              resonate with human emotions while pushing creative limits beyond imagination.
             </Typography>
           </motion.div>
 
@@ -362,10 +456,11 @@ const Hero: React.FC = () => {
               animate="animate"
               transition={{ delay: 1 }}
               whileHover={{ scale: 1.2, rotate: 10 }}
-            >              <MusicNote sx={{ 
+            >
+              <Psychology sx={{ 
                 fontSize: '2.5rem', 
-                color: 'rgba(99, 102, 241, 0.4)',
-                filter: 'drop-shadow(0 0 10px rgba(99, 102, 241, 0.3))'
+                color: 'rgba(0, 245, 255, 0.4)',
+                filter: 'drop-shadow(0 0 15px rgba(0, 245, 255, 0.3))'
               }} />
             </motion.div>
           </Box>
@@ -376,7 +471,8 @@ const Hero: React.FC = () => {
               animate="animate"
               transition={{ delay: 1.5 }}
               whileHover={{ scale: 1.2, rotate: -10 }}
-            >              <Album sx={{ 
+            >
+              <AutoAwesome sx={{ 
                 fontSize: '2rem', 
                 color: 'rgba(236, 72, 153, 0.4)',
                 filter: 'drop-shadow(0 0 10px rgba(236, 72, 153, 0.3))'
@@ -390,13 +486,12 @@ const Hero: React.FC = () => {
               animate="animate"
               transition={{ delay: 2 }}
               whileHover={{ scale: 1.3 }}
-            >              <Typography sx={{ 
-                fontSize: '3rem',
-                color: 'rgba(139, 92, 246, 0.3)',
-                filter: 'drop-shadow(0 0 10px rgba(139, 92, 246, 0.2))'
-              }}>
-                🎤
-              </Typography>
+            >
+              <Lightbulb sx={{ 
+                fontSize: '2.2rem',
+                color: 'rgba(255, 215, 0, 0.4)',
+                filter: 'drop-shadow(0 0 10px rgba(255, 215, 0, 0.3))'
+              }} />
             </motion.div>
           </Box>
 
@@ -406,13 +501,12 @@ const Hero: React.FC = () => {
               animate="animate"
               transition={{ delay: 2.5 }}
               whileHover={{ scale: 1.3 }}
-            >              <Typography sx={{ 
+            >
+              <MusicNote sx={{ 
                 fontSize: '2.5rem',
                 color: 'rgba(99, 102, 241, 0.3)',
                 filter: 'drop-shadow(0 0 10px rgba(99, 102, 241, 0.2))'
-              }}>
-                🎸
-              </Typography>
+              }} />
             </motion.div>
           </Box>
 
@@ -435,10 +529,10 @@ const Hero: React.FC = () => {
                 margin: '2rem auto 0',
               }}
             >              {[
-                { number: '7+', label: 'Streams' },
-                { number: '7+', label: 'Hip-Hop Tracks' },
-                { number: '5+', label: 'Acoustic Songs' },
-                { number: '2+', label: 'Albums' },
+                { number: '1K+', label: 'Streams' },
+                { number: '12+', label: 'Hip-Hop Tracks' },
+                { number: '9+', label: 'Acoustic Songs' },
+                { number: '3+', label: 'Albums' },
               ].map((stat, index) => (<motion.div
                   key={stat.label}
                   variants={pulseAnimation}
