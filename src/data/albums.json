@@ -112,7 +112,7 @@
       "tracks": 6,
       "image": "/Forged_In_Time.png",
       "featured": true,
-      "color": "#ec4899",
+      "color": "#f59e0b",
       "streams": "2.5k+",
       "rating": 4.8,
       "status": "released",
@@ -144,13 +144,13 @@
         },
         {
           "title": "Ember's Glow",
-          "duration": "X:XX",
+          "duration": "3:52",
           "featured": false,
           "aiGenerated": true
         },
         {
           "title": "Crystal Clear",
-          "duration": "X:XX",
+          "duration": "3:29",
           "featured": false,
           "aiGenerated": true
         }
