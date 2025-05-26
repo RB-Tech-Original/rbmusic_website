@@ -35,7 +35,8 @@ const PlayingCard: React.FC<PlayingCardProps> = ({
   duration,
   onTogglePlayback,
   onSeek,
-}) => {  const [isCardVisible, setIsCardVisible] = useState(true);
+}) => {
+  const [isCardVisible, setIsCardVisible] = useState(true);
   const [showMiniIcon, setShowMiniIcon] = useState(false);
 
   // Auto-hide card after 30 seconds when song finishes
@@ -65,13 +66,12 @@ const PlayingCard: React.FC<PlayingCardProps> = ({
     }
   }, [isPlaying, currentTime]);
 
-  // Debug: Log current time changes
+  // Show the card when a track is loaded and playing
   useEffect(() => {
-    if (track) {
-      const progress = (currentTime / 30) * 100;
-      console.log('PlayingCard currentTime updated:', currentTime, 'progress:', progress);
+    if (track && isPlaying && !isCardVisible && !showMiniIcon) {
+      setIsCardVisible(true);
     }
-  }, [currentTime, track]);
+  }, [track, isPlaying, isCardVisible, showMiniIcon]);
 
   if (!track) return null;
 
@@ -398,28 +398,31 @@ const PlayingCard: React.FC<PlayingCardProps> = ({
               style={{
                 borderRadius: '24px',
               }}
-            >
-              <Card
+            >              <Card
                 sx={{
-                  background: 'linear-gradient(135deg, rgba(15, 15, 35, 0.95) 0%, rgba(30, 30, 60, 0.95) 100%)',
-                  backdropFilter: 'blur(25px)',
-                  border: '1px solid rgba(99, 102, 241, 0.4)',
-                  borderRadius: '24px',
+                  background: 'linear-gradient(135deg, rgba(19, 19, 43, 0.95) 0%, rgba(16, 16, 36, 0.9) 100%)',
+                  backdropFilter: 'blur(20px)',
+                  border: '1px solid rgba(59, 130, 246, 0.3)',
+                  borderRadius: '16px',
                   overflow: 'hidden',
                   position: 'relative',
+                  boxShadow: isPlaying 
+                    ? '0 20px 40px rgba(59, 130, 246, 0.2), 0 8px 32px rgba(244, 63, 94, 0.1)'
+                    : '0 8px 32px rgba(0, 0, 0, 0.3)',
+                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
                   '&::before': {
                     content: '""',
                     position: 'absolute',
                     top: 0,
                     left: 0,
                     right: 0,
-                    height: '6px',
+                    height: '4px',
                     background: isInFadeOut 
                       ? 'linear-gradient(90deg, #f59e0b 0%, #ef4444 50%, #dc2626 100%)'
-                      : 'linear-gradient(90deg, #6366f1 0%, #ec4899 50%, #8b5cf6 100%)',
+                      : 'linear-gradient(90deg, #3b82f6 0%, #f43f5e 100%)',
                     boxShadow: isInFadeOut 
-                      ? '0 0 25px rgba(245, 158, 11, 0.6)'
-                      : '0 0 25px rgba(99, 102, 241, 0.6)',
+                      ? '0 0 15px rgba(245, 158, 11, 0.4)'
+                      : '0 0 15px rgba(59, 130, 246, 0.4)',
                     transition: 'all 0.5s ease',
                   },
                   '&::after': isPlaying ? {
@@ -429,7 +432,7 @@ const PlayingCard: React.FC<PlayingCardProps> = ({
                     left: 0,
                     right: 0,
                     bottom: 0,
-                    background: 'linear-gradient(45deg, transparent 48%, rgba(99, 102, 241, 0.05) 50%, transparent 52%)',
+                    background: 'linear-gradient(45deg, transparent 48%, rgba(59, 130, 246, 0.03) 50%, transparent 52%)',
                     animation: 'shimmer 3s ease-in-out infinite',
                     pointerEvents: 'none',
                     '@keyframes shimmer': {
@@ -446,20 +449,19 @@ const PlayingCard: React.FC<PlayingCardProps> = ({
                       <motion.div
                         variants={hipHopPulse}
                         animate={isPlaying ? "playing" : "paused"}
-                      >
-                        <GraphicEq sx={{ 
-                          color: isPlaying ? '#6366f1' : 'rgba(255, 255, 255, 0.5)', 
+                      >                        <GraphicEq sx={{ 
+                          color: isPlaying ? '#3b82f6' : 'rgba(255, 255, 255, 0.5)', 
                           fontSize: '1.2rem',
-                          filter: isPlaying ? 'drop-shadow(0 0 8px #6366f1)' : 'none'
+                          filter: isPlaying ? 'drop-shadow(0 0 8px #3b82f6)' : 'none'
                         }} />
                       </motion.div>                      <Typography
                         variant="caption"
                         sx={{
                           color: 'rgba(255, 255, 255, 0.8)',
-                          fontSize: '0.8rem',
-                          fontWeight: 600,
+                          fontSize: '0.8rem',                          fontWeight: 600,
                           textTransform: 'uppercase',
                           letterSpacing: '1px',
+                          fontFamily: '"Plus Jakarta Sans", "Inter", sans-serif',
                         }}
                       >
                         {isInFadeOut ? 'Ending Soon' : (isPlaying ? 'Now Playing' : 'Paused')}
@@ -472,12 +474,11 @@ const PlayingCard: React.FC<PlayingCardProps> = ({
                     >
                       <IconButton
                         onClick={handleCloseCard}
-                        size="small"
-                        sx={{
+                        size="small"                        sx={{
                           color: 'rgba(255, 255, 255, 0.6)',
                           '&:hover': {
-                            color: '#ec4899',
-                            backgroundColor: 'rgba(236, 72, 153, 0.1)',
+                            color: '#f43f5e',
+                            backgroundColor: 'rgba(244, 63, 94, 0.1)',
                           },
                           transition: 'all 0.3s ease',
                         }}
@@ -510,7 +511,7 @@ const PlayingCard: React.FC<PlayingCardProps> = ({
                             left: -8,
                             width: 96,
                             height: 96,
-                            background: `conic-gradient(from 0deg, ${isInFadeOut ? '#f59e0b' : '#6366f1'}, ${isInFadeOut ? '#ef4444' : '#ec4899'}, ${isInFadeOut ? '#dc2626' : '#8b5cf6'}, ${isInFadeOut ? '#f59e0b' : '#6366f1'})`,
+                            background: `conic-gradient(from 0deg, ${isInFadeOut ? '#f59e0b' : '#3b82f6'}, ${isInFadeOut ? '#ef4444' : '#f43f5e'}, ${isInFadeOut ? '#dc2626' : '#3b82f6'}, ${isInFadeOut ? '#f59e0b' : '#3b82f6'})`,
                             borderRadius: '50%',
                             filter: 'blur(2px)',
                             opacity: 0.6,
@@ -537,7 +538,7 @@ const PlayingCard: React.FC<PlayingCardProps> = ({
                             left: -4,
                             width: 88,
                             height: 88,
-                            background: `radial-gradient(circle, transparent 60%, ${isInFadeOut ? 'rgba(245, 158, 11, 0.3)' : 'rgba(99, 102, 241, 0.3)'} 100%)`,
+                            background: `radial-gradient(circle, transparent 60%, ${isInFadeOut ? 'rgba(245, 158, 11, 0.3)' : 'rgba(59, 130, 246, 0.3)'} 100%)`,
                             borderRadius: '50%',
                             zIndex: 1,
                           }}
@@ -550,13 +551,12 @@ const PlayingCard: React.FC<PlayingCardProps> = ({
                           width: 80,
                           height: 80,
                           mr: 2.5,
-                          borderRadius: '16px',
-                          background: 'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)',
+                          borderRadius: '16px',                          background: 'linear-gradient(135deg, #3b82f6 0%, #f43f5e 100%)',
                           border: isPlaying 
-                            ? `3px solid ${isInFadeOut ? 'rgba(245, 158, 11, 0.8)' : 'rgba(99, 102, 241, 0.8)'}` 
-                            : '3px solid rgba(99, 102, 241, 0.4)',
+                            ? `3px solid ${isInFadeOut ? 'rgba(245, 158, 11, 0.8)' : 'rgba(59, 130, 246, 0.8)'}` 
+                            : '3px solid rgba(59, 130, 246, 0.4)',
                           boxShadow: isPlaying 
-                            ? `0 0 20px ${isInFadeOut ? 'rgba(245, 158, 11, 0.4)' : 'rgba(99, 102, 241, 0.4)'}, 0 4px 15px rgba(0, 0, 0, 0.3)` 
+                            ? `0 0 20px ${isInFadeOut ? 'rgba(245, 158, 11, 0.4)' : 'rgba(59, 130, 246, 0.4)'}, 0 4px 15px rgba(0, 0, 0, 0.3)` 
                             : '0 8px 20px rgba(0, 0, 0, 0.4)',
                           transition: 'all 0.4s ease',
                           fontSize: '2rem',
@@ -572,7 +572,7 @@ const PlayingCard: React.FC<PlayingCardProps> = ({
                             left: 0,
                             right: 0,
                             bottom: 0,
-                            background: `linear-gradient(45deg, transparent 30%, ${isInFadeOut ? 'rgba(245, 158, 11, 0.1)' : 'rgba(99, 102, 241, 0.1)'} 50%, transparent 70%)`,
+                            background: `linear-gradient(45deg, transparent 30%, ${isInFadeOut ? 'rgba(245, 158, 11, 0.1)' : 'rgba(59, 130, 246, 0.1)'} 50%, transparent 70%)`,
                             animation: 'albumShimmer 2s ease-in-out infinite',
                             '@keyframes albumShimmer': {
                               '0%': { transform: 'translateX(-100%) translateY(-100%)' },
@@ -587,8 +587,7 @@ const PlayingCard: React.FC<PlayingCardProps> = ({
 
                     <Box sx={{ flex: 1, minWidth: 0 }}>
                       <Typography
-                        variant="h6"
-                        sx={{
+                        variant="h6"                        sx={{
                           color: '#ffffff',
                           fontWeight: 700,
                           fontSize: '1.1rem',
@@ -600,20 +599,21 @@ const PlayingCard: React.FC<PlayingCardProps> = ({
                           WebkitBackgroundClip: 'text',
                           WebkitTextFillColor: 'transparent',
                           backgroundClip: 'text',
+                          fontFamily: '"Plus Jakarta Sans", "Inter", sans-serif',
                         }}
                       >
                         {track.title}
                       </Typography>
                       <Typography
-                        variant="body2"
-                        sx={{
-                          color: '#b3b3b3',
+                        variant="body2"                        sx={{
+                          color: '#94a3b8',
                           fontSize: '0.9rem',
                           mb: 0.5,
                           overflow: 'hidden',
                           textOverflow: 'ellipsis',
                           whiteSpace: 'nowrap',
                           fontWeight: 500,
+                          fontFamily: '"Plus Jakarta Sans", "Inter", sans-serif',
                         }}
                       >
                         {track.artist}
@@ -625,18 +625,17 @@ const PlayingCard: React.FC<PlayingCardProps> = ({
                           fontSize: '0.75rem',
                           display: 'flex',
                           alignItems: 'center',
-                          gap: 0.5,
-                          textTransform: 'uppercase',
+                          gap: 0.5,                          textTransform: 'uppercase',
                           letterSpacing: '0.5px',
                           fontWeight: 600,
+                          fontFamily: '"Plus Jakarta Sans", "Inter", sans-serif',
                         }}
-                      >
-                        <Box sx={{ 
+                      >                        <Box sx={{ 
                           width: 6, 
                           height: 6, 
                           borderRadius: '50%', 
-                          background: 'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)',
-                          boxShadow: '0 0 8px rgba(99, 102, 241, 0.6)'
+                          background: 'linear-gradient(135deg, #3b82f6 0%, #f43f5e 100%)',
+                          boxShadow: '0 0 8px rgba(59, 130, 246, 0.6)'
                         }} />
                         Hip-Hop • Instrumental{isInFadeOut && ' • Fade Out'}
                       </Typography>
@@ -645,15 +644,15 @@ const PlayingCard: React.FC<PlayingCardProps> = ({
 
                   {/* Progress bar */}
                   <Box sx={{ mb: 3 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
-                      <Typography 
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>                      <Typography 
                         variant="caption" 
                         sx={{ 
-                          color: '#6366f1', 
+                          color: '#3b82f6', 
                           fontSize: '0.8rem',
                           fontWeight: 600,
                           fontVariantNumeric: 'tabular-nums',
                           minWidth: '40px',
+                          fontFamily: '"Plus Jakarta Sans", "Inter", sans-serif',
                         }}
                       >
                         {formatTime(currentTime)}
@@ -661,27 +660,26 @@ const PlayingCard: React.FC<PlayingCardProps> = ({
                       <Box sx={{ flex: 1 }}>
                         <LinearProgress
                           variant="determinate"
-                          value={progress}
-                          sx={{
+                          value={progress}                          sx={{
                             height: 8,
                             borderRadius: 4,
-                            backgroundColor: 'rgba(255, 255, 255, 0.15)',
+                            backgroundColor: 'rgba(255, 255, 255, 0.1)',
                             cursor: 'pointer',
                             '& .MuiLinearProgress-bar': {
                               background: isInFadeOut 
                                 ? 'linear-gradient(90deg, #f59e0b 0%, #ef4444 70%, #dc2626 100%)'
-                                : 'linear-gradient(90deg, #6366f1 0%, #ec4899 70%, #8b5cf6 100%)',
+                                : 'linear-gradient(90deg, #3b82f6 0%, #f43f5e 100%)',
                               borderRadius: 4,
                               boxShadow: isInFadeOut
                                 ? '0 0 15px rgba(245, 158, 11, 0.6)'
-                                : '0 0 15px rgba(99, 102, 241, 0.6)',
+                                : '0 0 15px rgba(59, 130, 246, 0.4)',
                               transition: 'all 0.3s ease',
                             },
                             '&:hover': {
                               '& .MuiLinearProgress-bar': {
                                 boxShadow: isInFadeOut
                                   ? '0 0 20px rgba(245, 158, 11, 0.8)'
-                                  : '0 0 20px rgba(99, 102, 241, 0.8)',
+                                  : '0 0 20px rgba(59, 130, 246, 0.6)',
                                 transform: 'scaleY(1.2)',
                               },
                             },
@@ -695,16 +693,16 @@ const PlayingCard: React.FC<PlayingCardProps> = ({
                             }
                           }}
                         />
-                      </Box>
-                      <Typography 
+                      </Box>                      <Typography 
                         variant="caption" 
                         sx={{ 
-                          color: isInFadeOut ? '#f59e0b' : 'rgba(255, 255, 255, 0.7)', 
+                          color: isInFadeOut ? '#f59e0b' : 'rgba(255, 255, 255, 0.6)', 
                           fontSize: '0.8rem',
                           fontWeight: 600,
                           fontVariantNumeric: 'tabular-nums',
                           minWidth: '40px',
                           textAlign: 'right',
+                          fontFamily: '"Plus Jakarta Sans", "Inter", sans-serif',
                         }}
                       >
                         -{formatTime(Math.max(0, 30 - currentTime))}
@@ -728,7 +726,7 @@ const PlayingCard: React.FC<PlayingCardProps> = ({
                           width: '90px',
                           height: '90px',
                           borderRadius: '50%',
-                          background: `conic-gradient(from 0deg, ${isInFadeOut ? 'rgba(245, 158, 11, 0.3)' : 'rgba(99, 102, 241, 0.3)'}, ${isInFadeOut ? 'rgba(239, 68, 68, 0.5)' : 'rgba(236, 72, 153, 0.5)'}, ${isInFadeOut ? 'rgba(220, 38, 38, 0.3)' : 'rgba(139, 92, 246, 0.3)'}, ${isInFadeOut ? 'rgba(245, 158, 11, 0.3)' : 'rgba(99, 102, 241, 0.3)'})`,
+                          background: `conic-gradient(from 0deg, ${isInFadeOut ? 'rgba(245, 158, 11, 0.3)' : 'rgba(59, 130, 246, 0.3)'}, ${isInFadeOut ? 'rgba(239, 68, 68, 0.5)' : 'rgba(244, 63, 94, 0.5)'}, ${isInFadeOut ? 'rgba(220, 38, 38, 0.3)' : 'rgba(59, 130, 246, 0.3)'}, ${isInFadeOut ? 'rgba(245, 158, 11, 0.3)' : 'rgba(59, 130, 246, 0.3)'})`,
                           filter: 'blur(8px)',
                           zIndex: 0,
                         }}
@@ -751,7 +749,7 @@ const PlayingCard: React.FC<PlayingCardProps> = ({
                         width: '80px',
                         height: '80px',
                         borderRadius: '50%',
-                        background: `radial-gradient(circle, ${isInFadeOut ? 'rgba(245, 158, 11, 0.4)' : 'rgba(99, 102, 241, 0.4)'}, transparent 70%)`,
+                        background: `radial-gradient(circle, ${isInFadeOut ? 'rgba(245, 158, 11, 0.4)' : 'rgba(59, 130, 246, 0.4)'}, transparent 70%)`,
                         zIndex: 1,
                       }}
                     />
@@ -767,12 +765,11 @@ const PlayingCard: React.FC<PlayingCardProps> = ({
                       }}
                     >
                       {/* Button shadow/glow effect */}
-                      <motion.div
-                        animate={isPlaying ? {
+                      <motion.div                        animate={isPlaying ? {
                           boxShadow: [
-                            `0 8px 25px ${isInFadeOut ? 'rgba(245, 158, 11, 0.4)' : 'rgba(99, 102, 241, 0.4)'}, 0 0 20px ${isInFadeOut ? 'rgba(239, 68, 68, 0.3)' : 'rgba(236, 72, 153, 0.3)'}`,
-                            `0 12px 40px ${isInFadeOut ? 'rgba(245, 158, 11, 0.6)' : 'rgba(99, 102, 241, 0.6)'}, 0 0 35px ${isInFadeOut ? 'rgba(239, 68, 68, 0.5)' : 'rgba(236, 72, 153, 0.5)'}`,
-                            `0 8px 25px ${isInFadeOut ? 'rgba(245, 158, 11, 0.4)' : 'rgba(99, 102, 241, 0.4)'}, 0 0 20px ${isInFadeOut ? 'rgba(239, 68, 68, 0.3)' : 'rgba(236, 72, 153, 0.3)'}`,
+                            `0 8px 25px ${isInFadeOut ? 'rgba(245, 158, 11, 0.4)' : 'rgba(59, 130, 246, 0.3)'}, 0 0 20px ${isInFadeOut ? 'rgba(239, 68, 68, 0.3)' : 'rgba(244, 63, 94, 0.2)'}`,
+                            `0 12px 40px ${isInFadeOut ? 'rgba(245, 158, 11, 0.6)' : 'rgba(59, 130, 246, 0.5)'}, 0 0 35px ${isInFadeOut ? 'rgba(239, 68, 68, 0.5)' : 'rgba(244, 63, 94, 0.4)'}`,
+                            `0 8px 25px ${isInFadeOut ? 'rgba(245, 158, 11, 0.4)' : 'rgba(59, 130, 246, 0.3)'}, 0 0 20px ${isInFadeOut ? 'rgba(239, 68, 68, 0.3)' : 'rgba(244, 63, 94, 0.2)'}`,
                           ]
                         } : {
                           boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)'
@@ -785,11 +782,10 @@ const PlayingCard: React.FC<PlayingCardProps> = ({
                         style={{ borderRadius: '50%' }}
                       >
                         <IconButton
-                          onClick={onTogglePlayback}
-                          sx={{
+                          onClick={onTogglePlayback}                          sx={{
                             background: isInFadeOut 
                               ? 'linear-gradient(135deg, #f59e0b 0%, #ef4444 100%)'
-                              : 'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)',
+                              : 'linear-gradient(135deg, #3b82f6 0%, #f43f5e 100%)',
                             color: 'white',
                             width: 70,
                             height: 70,
@@ -797,15 +793,15 @@ const PlayingCard: React.FC<PlayingCardProps> = ({
                             position: 'relative',
                             overflow: 'hidden',
                             border: isPlaying 
-                              ? `2px solid ${isInFadeOut ? 'rgba(245, 158, 11, 0.6)' : 'rgba(99, 102, 241, 0.6)'}` 
+                              ? `2px solid ${isInFadeOut ? 'rgba(245, 158, 11, 0.6)' : 'rgba(59, 130, 246, 0.6)'}` 
                               : '2px solid transparent',
                             transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
                             '&:hover': {
                               background: isInFadeOut 
                                 ? 'linear-gradient(135deg, #fbbf24 0%, #f87171 100%)'
-                                : 'linear-gradient(135deg, #8b5cf6 0%, #f472b6 100%)',
+                                : 'linear-gradient(135deg, #60a5fa 0%, #fb7185 100%)',
                               transform: 'scale(1.02)',
-                              border: `2px solid ${isInFadeOut ? 'rgba(245, 158, 11, 0.8)' : 'rgba(99, 102, 241, 0.8)'}`,
+                              border: `2px solid ${isInFadeOut ? 'rgba(245, 158, 11, 0.8)' : 'rgba(59, 130, 246, 0.8)'}`,
                             },
                             '&:active': {
                               transform: 'scale(0.95)',
@@ -842,9 +838,8 @@ const PlayingCard: React.FC<PlayingCardProps> = ({
                               top: '3px',
                               left: '3px',
                               right: '3px',
-                              bottom: '3px',
-                              borderRadius: '50%',
-                              background: `radial-gradient(circle, transparent 40%, ${isInFadeOut ? 'rgba(245, 158, 11, 0.15)' : 'rgba(99, 102, 241, 0.15)'} 100%)`,
+                              bottom: '3px',                              borderRadius: '50%',
+                              background: `radial-gradient(circle, transparent 40%, ${isInFadeOut ? 'rgba(245, 158, 11, 0.15)' : 'rgba(59, 130, 246, 0.15)'} 100%)`,
                               pointerEvents: 'none',
                             } : {},
                           }}
@@ -999,7 +994,7 @@ const PlayingCard: React.FC<PlayingCardProps> = ({
                 transform: 'translate(-50%, -50%)',
                 width: '32px',
                 height: '32px',
-                border: '3px solid #6366f1',
+                border: '3px solid #3b82f6',
                 borderRadius: '50%',
                 zIndex: -1,
                 filter: 'blur(0.5px)',
@@ -1017,7 +1012,7 @@ const PlayingCard: React.FC<PlayingCardProps> = ({
                 transform: 'translate(-50%, -50%)',
                 width: '2px',
                 height: '20px',
-                background: 'linear-gradient(90deg, transparent, #6366f1, transparent)',
+                background: 'linear-gradient(90deg, transparent, #3b82f6, transparent)',
                 borderRadius: '2px',
                 zIndex: -1,
               }}
@@ -1032,7 +1027,7 @@ const PlayingCard: React.FC<PlayingCardProps> = ({
                 transform: 'translate(-50%, -50%)',
                 width: '2px',
                 height: '30px',
-                background: 'linear-gradient(90deg, transparent, #ec4899, transparent)',
+                background: 'linear-gradient(90deg, transparent, #f43f5e, transparent)',
                 borderRadius: '2px',
                 zIndex: -1,
               }}
@@ -1047,7 +1042,7 @@ const PlayingCard: React.FC<PlayingCardProps> = ({
                 transform: 'translate(-50%, -50%)',
                 width: '2px',
                 height: '16px',
-                background: 'linear-gradient(90deg, transparent, #8b5cf6, transparent)',
+                background: 'linear-gradient(90deg, transparent, #3b82f6, transparent)',
                 borderRadius: '2px',
                 zIndex: -1,
               }}
@@ -1064,7 +1059,7 @@ const PlayingCard: React.FC<PlayingCardProps> = ({
                 transform: 'translate(-50%, -50%)',
                 width: '20px',
                 height: '20px',
-                border: '1px solid rgba(99, 102, 241, 0.3)',
+                border: '1px solid rgba(59, 130, 246, 0.3)',
                 borderRadius: '50%',
                 zIndex: -2,
               }}
@@ -1079,7 +1074,7 @@ const PlayingCard: React.FC<PlayingCardProps> = ({
                 transform: 'translate(-50%, -50%)',
                 width: '15px',
                 height: '15px',
-                border: '1px solid rgba(236, 72, 153, 0.2)',
+                border: '1px solid rgba(244, 63, 94, 0.2)',
                 borderRadius: '50%',
                 zIndex: -3,
               }}
@@ -1094,7 +1089,7 @@ const PlayingCard: React.FC<PlayingCardProps> = ({
                 transform: 'translate(-50%, -50%)',
                 width: '10px',
                 height: '10px',
-                border: '1px solid rgba(139, 92, 246, 0.1)',
+                border: '1px solid rgba(59, 130, 246, 0.1)',
                 borderRadius: '50%',
                 zIndex: -4,
               }}
@@ -1111,7 +1106,7 @@ const PlayingCard: React.FC<PlayingCardProps> = ({
                 transform: 'translate(-50%, -50%)',
                 width: '80px',
                 height: '80px',
-                background: 'radial-gradient(circle, rgba(99, 102, 241, 0.3), transparent 70%)',
+                background: 'radial-gradient(circle, rgba(59, 130, 246, 0.3), transparent 70%)',
                 borderRadius: '50%',
                 zIndex: -1,
               }}
@@ -1126,7 +1121,7 @@ const PlayingCard: React.FC<PlayingCardProps> = ({
                 transform: 'translate(-50%, -50%)',
                 width: '100px',
                 height: '100px',
-                background: 'radial-gradient(circle, rgba(236, 72, 153, 0.2), transparent 70%)',
+                background: 'radial-gradient(circle, rgba(244, 63, 94, 0.2), transparent 70%)',
                 borderRadius: '50%',
                 zIndex: -2,
               }}
@@ -1141,14 +1136,14 @@ const PlayingCard: React.FC<PlayingCardProps> = ({
                 transform: 'translate(-50%, -50%)',
                 width: '120px',
                 height: '120px',
-                background: 'radial-gradient(circle, rgba(139, 92, 246, 0.15), transparent 70%)',
+                background: 'radial-gradient(circle, rgba(59, 130, 246, 0.15), transparent 70%)',
                 borderRadius: '50%',
                 zIndex: -3,
               }}
             />            <Fab
               onClick={handleMiniIconClick}
               sx={{
-                background: 'linear-gradient(135deg, #6366f1 0%, #ec4899 50%, #8b5cf6 100%)',
+                background: 'linear-gradient(135deg, #3b82f6 0%, #f43f5e 100%)',
                 color: 'white',
                 width: 72,
                 height: 72,
@@ -1159,17 +1154,16 @@ const PlayingCard: React.FC<PlayingCardProps> = ({
                 backdropFilter: 'blur(10px)',
                 transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
                 '&:hover': {
-                  background: 'linear-gradient(135deg, #8b5cf6 0%, #f472b6 50%, #a855f7 100%)',
+                  background: 'linear-gradient(135deg, #60a5fa 0%, #fb7185 100%)',
                   transform: 'scale(1.15) rotate(5deg)',
                   border: '3px solid rgba(255, 255, 255, 0.3)',
-                  boxShadow: '0 20px 40px rgba(99, 102, 241, 0.6), 0 0 30px rgba(236, 72, 153, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.1)',
+                  boxShadow: '0 20px 40px rgba(59, 130, 246, 0.6), 0 0 30px rgba(244, 63, 94, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.1)',
                 },
                 '&:active': {
                   transform: 'scale(1.05)',
-                },
-                boxShadow: `
-                  0 12px 30px rgba(99, 102, 241, 0.5),
-                  0 0 25px rgba(236, 72, 153, 0.4),
+                },                boxShadow: `
+                  0 12px 30px rgba(59, 130, 246, 0.5),
+                  0 0 25px rgba(244, 63, 94, 0.4),
                   inset 0 2px 10px rgba(255, 255, 255, 0.1),
                   inset 0 -2px 10px rgba(0, 0, 0, 0.2)
                 `,
@@ -1181,7 +1175,7 @@ const PlayingCard: React.FC<PlayingCardProps> = ({
                   left: '-3px',
                   right: '-3px',
                   bottom: '-3px',
-                  background: 'conic-gradient(from 0deg, #6366f1, #ec4899, #8b5cf6, #6366f1)',
+                  background: 'conic-gradient(from 0deg, #3b82f6, #f43f5e, #3b82f6, #3b82f6)',
                   borderRadius: '50%',
                   zIndex: -1,
                   animation: 'rotatingBorder 4s linear infinite',
@@ -1202,18 +1196,16 @@ const PlayingCard: React.FC<PlayingCardProps> = ({
                 },
                 '@keyframes floatingPulse': {
                   '0%, 100%': { 
-                    transform: 'translateY(0px) scale(1)',
-                    boxShadow: `
-                      0 12px 30px rgba(99, 102, 241, 0.5),
-                      0 0 25px rgba(236, 72, 153, 0.4),
+                    transform: 'translateY(0px) scale(1)',                    boxShadow: `
+                      0 12px 30px rgba(59, 130, 246, 0.5),
+                      0 0 25px rgba(244, 63, 94, 0.4),
                       inset 0 2px 10px rgba(255, 255, 255, 0.1)
                     `
                   },
                   '50%': { 
-                    transform: 'translateY(-8px) scale(1.02)',
-                    boxShadow: `
-                      0 20px 40px rgba(99, 102, 241, 0.6),
-                      0 0 35px rgba(236, 72, 153, 0.5),
+                    transform: 'translateY(-8px) scale(1.02)',                    boxShadow: `
+                      0 20px 40px rgba(59, 130, 246, 0.6),
+                      0 0 35px rgba(244, 63, 94, 0.5),
                       inset 0 2px 15px rgba(255, 255, 255, 0.15)
                     `
                   },
@@ -1235,7 +1227,7 @@ const PlayingCard: React.FC<PlayingCardProps> = ({
                   transform: 'translate(-50%, -50%)',
                   width: '24px',
                   height: '24px',
-                  background: 'radial-gradient(circle, rgba(255, 255, 255, 0.6), rgba(99, 102, 241, 0.2) 50%, transparent 80%)',
+                  background: 'radial-gradient(circle, rgba(255, 255, 255, 0.6), rgba(59, 130, 246, 0.2) 50%, transparent 80%)',
                   borderRadius: '50%',
                   zIndex: -1,
                   filter: 'blur(1px)',
@@ -1251,7 +1243,7 @@ const PlayingCard: React.FC<PlayingCardProps> = ({
                   transform: 'translate(-50%, -50%)',
                   width: '36px',
                   height: '36px',
-                  background: 'radial-gradient(circle, rgba(255, 255, 255, 0.3), rgba(236, 72, 153, 0.2) 50%, transparent 70%)',
+                  background: 'radial-gradient(circle, rgba(255, 255, 255, 0.3), rgba(244, 63, 94, 0.2) 50%, transparent 70%)',
                   borderRadius: '50%',
                   zIndex: -2,
                   filter: 'blur(1.5px)',

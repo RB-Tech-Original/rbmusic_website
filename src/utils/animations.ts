@@ -48,6 +48,29 @@ export const floatingAnimation = {
   }
 };
 
+export const floatingAnimationSlow = {
+  animate: {
+    y: [-15, 15, -15],
+    transition: {
+      duration: 6,
+      repeat: Infinity,
+      ease: 'easeInOut'
+    }
+  }
+};
+
+export const floatingRotateAnimation = {
+  animate: {
+    y: [-7, 7, -7],
+    rotate: [-2, 2, -2],
+    transition: {
+      duration: 4,
+      repeat: Infinity,
+      ease: 'easeInOut'
+    }
+  }
+};
+
 export const pulseAnimation = {
   animate: {
     scale: [1, 1.05, 1],

@@ -4,56 +4,65 @@ export const modernTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#6366f1', // Indigo
-      light: '#8b5cf6', // Purple
-      dark: '#4338ca',
+      main: '#3b82f6', // Bright blue
+      light: '#60a5fa',
+      dark: '#2563eb',
     },
     secondary: {
-      main: '#ec4899', // Pink
-      light: '#f472b6',
-      dark: '#be185d',
+      main: '#f43f5e', // Vibrant rose
+      light: '#fb7185',
+      dark: '#e11d48',
     },
     background: {
-      default: '#0f0f23',
-      paper: '#1a1a2e',
+      default: '#0c0c1d', // Deeper background
+      paper: '#13132b',
     },
     text: {
       primary: '#ffffff',
-      secondary: '#a1a1aa',
+      secondary: '#94a3b8',
     },
   },
   typography: {
-    fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+    fontFamily: '"Plus Jakarta Sans", "Inter", "Roboto", "Helvetica", "Arial", sans-serif',
     h1: {
       fontWeight: 800,
-      fontSize: '4rem',
-      background: 'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)',
+      fontSize: '4.5rem',
+      letterSpacing: '-0.02em',
+      lineHeight: 1.1,
+      background: 'linear-gradient(135deg, #3b82f6 0%, #f43f5e 100%)',
       WebkitBackgroundClip: 'text',
       WebkitTextFillColor: 'transparent',
       backgroundClip: 'text',
     },
     h2: {
       fontWeight: 700,
-      fontSize: '3rem',
-      background: 'linear-gradient(135deg, #8b5cf6 0%, #f472b6 100%)',
+      fontSize: '3.2rem',
+      letterSpacing: '-0.01em',
+      background: 'linear-gradient(135deg, #60a5fa 0%, #fb7185 100%)',
       WebkitBackgroundClip: 'text',
       WebkitTextFillColor: 'transparent',
       backgroundClip: 'text',
     },
     h3: {
       fontWeight: 600,
-      fontSize: '2rem',
+      fontSize: '2.2rem',
       color: '#ffffff',
+      letterSpacing: '-0.01em',
     },
     h4: {
       fontWeight: 600,
-      fontSize: '1.5rem',
+      fontSize: '1.6rem',
       color: '#ffffff',
     },
     body1: {
       fontSize: '1.1rem',
-      lineHeight: 1.6,
-      color: '#a1a1aa',
+      lineHeight: 1.7,
+      color: '#94a3b8',
+      letterSpacing: '0.01em',
+    },
+    button: {
+      fontWeight: 600,
+      letterSpacing: '0.02em',
     },
   },
   components: {
@@ -64,11 +73,11 @@ export const modernTheme = createTheme({
           textTransform: 'none',
           fontWeight: 600,
           padding: '12px 24px',
-          background: 'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)',
+          background: 'linear-gradient(135deg, #3b82f6 0%, #f43f5e 100%)',
           '&:hover': {
-            background: 'linear-gradient(135deg, #8b5cf6 0%, #f472b6 100%)',
+            background: 'linear-gradient(135deg, #60a5fa 0%, #fb7185 100%)',
             transform: 'translateY(-2px)',
-            boxShadow: '0 10px 20px rgba(99, 102, 241, 0.3)',
+            boxShadow: '0 10px 25px rgba(59, 130, 246, 0.4)',
           },
           transition: 'all 0.3s ease',
         },
@@ -77,15 +86,40 @@ export const modernTheme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          background: 'rgba(26, 26, 46, 0.8)',
+          background: 'rgba(19, 19, 43, 0.7)',
           backdropFilter: 'blur(20px)',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
+          border: '1px solid rgba(255, 255, 255, 0.08)',
           borderRadius: '16px',
           '&:hover': {
             transform: 'translateY(-4px)',
-            boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)',
+            boxShadow: '0 20px 40px rgba(0, 0, 0, 0.35)',
+            borderColor: 'rgba(59, 130, 246, 0.2)',
           },
           transition: 'all 0.3s ease',
+        },
+      },
+    },
+    MuiChip: {
+      styleOverrides: {
+        root: {
+          borderRadius: '8px',
+          fontWeight: 500,
+          backdropFilter: 'blur(10px)',
+        },
+        filled: {
+          background: 'rgba(59, 130, 246, 0.15)',
+          border: '1px solid rgba(59, 130, 246, 0.3)',
+          '&:hover': {
+            background: 'rgba(59, 130, 246, 0.25)',
+          },
+        },
+      },
+    },
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          backdropFilter: 'blur(15px)',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
         },
       },
     },
@@ -93,8 +127,10 @@ export const modernTheme = createTheme({
 });
 
 export const gradients = {
-  primary: 'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)',
-  secondary: 'linear-gradient(135deg, #8b5cf6 0%, #f472b6 100%)',
-  background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 100%)',
-  card: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%)',
+  primary: 'linear-gradient(135deg, #3b82f6 0%, #f43f5e 100%)',
+  secondary: 'linear-gradient(135deg, #60a5fa 0%, #fb7185 100%)',
+  background: 'linear-gradient(135deg, #0c0c1d 0%, #13132b 100%)',
+  card: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(244, 63, 94, 0.1) 100%)',
+  glow: 'radial-gradient(circle at center, rgba(59, 130, 246, 0.8) 0%, rgba(244, 63, 94, 0.8) 100%)',
+  glassMorphism: 'linear-gradient(135deg, rgba(19, 19, 43, 0.7) 0%, rgba(16, 16, 36, 0.8) 100%)',
 };

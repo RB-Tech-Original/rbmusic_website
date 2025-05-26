@@ -3,14 +3,14 @@ import {
   Box,
   Typography,
   Container,
-  Grid,  Card,
+  Grid,
+  Card,
   CardContent,
   CardMedia,
   Chip,
   Collapse,
   List,
   ListItem,
-  // ListItemIcon, // Commented out since not currently used
   ListItemText,
   IconButton,
 } from '@mui/material';
@@ -18,7 +18,6 @@ import {
   MusicNote,
   TrendingUp,
   Star,
-  // PlayArrow, // Removed as we're simplifying the song view
   ExpandMore,
   ExpandLess,
   AccessTime,
@@ -28,10 +27,9 @@ import {
   Equalizer,
 } from '@mui/icons-material';
 import { motion } from 'framer-motion';
-import { fadeInUp, staggerContainer, staggerItem } from '../utils/animations';
+import { staggerContainer, staggerItem } from '../utils/animations';
 import { Album } from '../types/album';
 import albumService from '../services/albumService';
-
 
 const Music: React.FC = () => {
   const [expandedAlbum, setExpandedAlbum] = useState<string | null>(null);
@@ -39,187 +37,215 @@ const Music: React.FC = () => {
 
   const toggleAlbumExpansion = (albumId: string) => {
     setExpandedAlbum(expandedAlbum === albumId ? null : albumId);
-  };
-  return (
+  };  return (
     <Box
       id="music"
       sx={{
-        py: 12,
+        minHeight: '100vh',
+        py: { xs: 8, md: 12 },
         position: 'relative',
         overflow: 'hidden',
-        background: 'linear-gradient(180deg, rgba(15, 15, 35, 0.9) 0%, rgba(26, 26, 46, 0.95) 100%)',
-        '&::before': {
-          content: '""',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'radial-gradient(circle at 30% 20%, rgba(99, 102, 241, 0.1) 0%, transparent 50%)',
-          pointerEvents: 'none',
-        },
-        '&::after': {
-          content: '""',
-          position: 'absolute',
-          top: '30%',
-          right: '10%',
-          width: '60%',
-          height: '40%',
-          background: 'radial-gradient(ellipse at center, rgba(236, 72, 153, 0.05) 0%, transparent 70%)',
-          pointerEvents: 'none',
-        }
+        background: `
+          radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+          radial-gradient(circle at 90% 80%, rgba(244, 63, 94, 0.08) 0%, transparent 50%),
+          radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.05) 0%, transparent 70%)
+        `,
       }}
     >
-      <Container maxWidth="lg">
+      {/* Animated background elements */}
+      <Box sx={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
+        {/* Animated glow orbs */}
         <motion.div
-          variants={fadeInUp}
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true, amount: 0.3 }}
-        >          <Box sx={{ textAlign: 'center', mb: 10 }}>
-            <Typography
-              variant="h2"
-              component="h2"
-              sx={{
-                mb: 3,
-                fontSize: { xs: '2.5rem', md: '3.5rem' },
-                fontWeight: 800,
-                background: 'linear-gradient(135deg, #00f5ff 0%, #6366f1 25%, #ec4899 50%, #8b5cf6 75%, #00f5ff 100%)',
-                backgroundSize: '200% 200%',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-                position: 'relative',
-                textShadow: '0 0 30px rgba(99, 102, 241, 0.3)',
-                animation: 'gradient 3s ease infinite',
-                '@keyframes gradient': {
-                  '0%': { backgroundPosition: '0% 50%' },
-                  '50%': { backgroundPosition: '100% 50%' },
-                  '100%': { backgroundPosition: '0% 50%' },
-                },
-                '&::after': {
-                  content: '""',
-                  position: 'absolute',
-                  bottom: '-10px',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  width: '120px',
-                  height: '4px',
-                  background: 'linear-gradient(135deg, #00f5ff 0%, #ec4899 100%)',
-                  borderRadius: '2px',
-                  opacity: 0.8,
-                }
-              }}
-            >
-              AI Music Collection
-            </Typography>
-            <Typography
-              variant="h6"
-              sx={{
-                color: 'rgba(255, 255, 255, 0.7)',
-                maxWidth: 800,
-                mx: 'auto',
-                fontSize: '1.3rem',
-                lineHeight: 1.6,
-                fontWeight: 400,
-                mb: 2,
-              }}
-            >
-              🤖 Experience the future of music creation - where artificial intelligence meets authentic storytelling
-            </Typography>
-            <Typography
-              variant="body1"
-              sx={{
-                color: '#00f5ff',
-                fontSize: '1rem',
-                fontWeight: 600,
-                textTransform: 'uppercase',
-                letterSpacing: '2px',
-                textShadow: '0 0 15px rgba(0, 245, 255, 0.3)',
-              }}
-            >
-              First AI Song Producer • Revolutionary Sound
-            </Typography>
-          </Box>
-        </motion.div>        {/* Featured Albums */}
+          initial={{ opacity: 0.7, x: '10%', y: '10%' }}
+          animate={{ 
+            opacity: [0.7, 0.5, 0.7],
+            x: ['10%', '15%', '10%'], 
+            y: ['10%', '15%', '10%'], 
+          }}
+          transition={{ 
+            duration: 15,
+            repeat: Infinity,
+            ease: "easeInOut" 
+          }}
+          style={{
+            position: 'absolute',
+            top: '10%',
+            left: '5%',
+            width: '30vw',
+            height: '30vw',
+            maxWidth: '500px',
+            maxHeight: '500px',
+            background: 'radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%)',
+            borderRadius: '50%',
+            filter: 'blur(50px)',
+          }}
+        />
+        
         <motion.div
-          variants={fadeInUp}
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true, amount: 0.3 }}
+          initial={{ opacity: 0.7, x: '-10%', y: '-10%' }}
+          animate={{ 
+            opacity: [0.7, 0.4, 0.7],
+            x: ['-10%', '-15%', '-10%'], 
+            y: ['-10%', '-5%', '-10%'], 
+          }}
+          transition={{ 
+            duration: 20,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2 
+          }}
+          style={{
+            position: 'absolute',
+            bottom: '10%',
+            right: '5%',
+            width: '35vw',
+            height: '35vw',
+            maxWidth: '600px',
+            maxHeight: '600px',
+            background: 'radial-gradient(circle, rgba(244, 63, 94, 0.12) 0%, transparent 70%)',
+            borderRadius: '50%',
+            filter: 'blur(60px)',
+          }}
+        />
+        
+        {/* Grid pattern overlay */}
+        <Box sx={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: `
+            linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px)
+          `,
+          backgroundSize: '40px 40px',
+          opacity: 0.5,
+        }} />
+      </Box>      <Container maxWidth="xl">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
         >
-          <Box sx={{ mb: 10 }}>            <Typography
-              variant="h3"
-              component="h3"
-              sx={{ 
-                mb: 6, 
-                color: 'white', 
-                fontWeight: 700,
-                fontSize: { xs: '2rem', md: '2.5rem' },
-                textAlign: 'center',
-                position: 'relative',
-                '&::before': {
-                  content: '"🎵"',
-                  position: 'absolute',
-                  left: '-50px',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  fontSize: '2rem',
-                  opacity: 0.3,
-                },
-                '&::after': {
-                  content: '"🤖"',
-                  position: 'absolute',
-                  right: '-50px',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  fontSize: '2rem',
-                  opacity: 0.3,
-                },
-              }}
+          <Box sx={{ textAlign: 'center', mb: { xs: 8, md: 10 } }}>
+            {/* Chip indicator */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
             >
-              AI-Generated Albums
-            </Typography>
-            
+              <Chip
+                icon={<AutoAwesome sx={{ fontSize: 16 }} />}
+                label="MUSIC COLLECTION"
+                size="medium"
+                sx={{ 
+                  fontWeight: 600,
+                  px: 2,
+                  py: 2.5,
+                  borderRadius: '12px',
+                  background: 'rgba(59, 130, 246, 0.1)',
+                  border: '1px solid rgba(59, 130, 246, 0.2)',
+                  mb: 3,
+                  '& .MuiChip-icon': {
+                    color: '#3b82f6',
+                  },
+                  color: '#3b82f6',
+                }}
+              />
+            </motion.div>
+
+            {/* Main title */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              <Typography
+                variant="h1"
+                component="h2"
+                sx={{
+                  fontSize: { xs: '2.8rem', sm: '3.5rem', md: '4rem', lg: '4.5rem' },
+                  lineHeight: 1.1,
+                  mb: 3,
+                  fontWeight: 800,
+                  letterSpacing: '-0.02em',
+                  background: 'linear-gradient(135deg, #3b82f6 0%, #60a5fa 50%, #f43f5e 100%)',
+                  backgroundSize: '200% auto',
+                  animation: 'gradient 4s linear infinite',
+                  '@keyframes gradient': {
+                    '0%': { backgroundPosition: '0% center' },
+                    '100%': { backgroundPosition: '200% center' },
+                  },
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
+              >
+                Music Universe
+              </Typography>
+            </motion.div>
+
+            {/* Description */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <Typography
+                variant="body1"
+                sx={{
+                  fontSize: { xs: '1.1rem', md: '1.25rem' },
+                  mb: 4,
+                  color: 'text.secondary',
+                  maxWidth: { xs: '100%', md: '800px' },
+                  mx: 'auto',
+                  lineHeight: 1.7,
+                }}
+              >
+                Dive into a revolutionary collection of AI-generated albums that push the 
+                boundaries of musical creativity. Each composition represents a unique fusion 
+                of artificial intelligence and human emotion.
+              </Typography>
+            </motion.div>
+          </Box>
+        </motion.div>{/* Featured Albums */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.3 }}
+        >
+          <Box sx={{ mb: { xs: 8, md: 12 } }}>
             <motion.div
               variants={staggerContainer}
               initial="initial"
               whileInView="animate"
               viewport={{ once: true, amount: 0.3 }}
-            >              <Grid container spacing={4}>
+            >
+              <Grid container spacing={{ xs: 3, md: 4 }}>
                 {albums.map((album, index) => (
                   <Grid size={{ xs: 12, sm: 6, lg: 4 }} key={album.title}>
-                    <motion.div variants={staggerItem}>
-                      <Card
+                    <motion.div 
+                      variants={staggerItem}
+                      whileHover={{ y: -8 }}
+                      transition={{ duration: 0.3 }}
+                    >                      <Card
                         sx={{
-                          background: 'linear-gradient(145deg, rgba(26, 26, 46, 0.6) 0%, rgba(15, 15, 35, 0.8) 100%)',
-                          backdropFilter: 'blur(25px)',
-                          border: album.featured 
-                            ? `2px solid ${album.color}` 
-                            : '1px solid rgba(255, 255, 255, 0.08)',
-                          borderRadius: '28px',                          transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+                          background: 'rgba(255, 255, 255, 0.02)',
+                          backdropFilter: 'blur(20px)',
+                          border: '1px solid rgba(255, 255, 255, 0.1)',
+                          borderRadius: '20px',
+                          transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
                           position: 'relative',
                           overflow: 'hidden',
-                          height: 'auto', // Changed from fixed height to auto
-                          minHeight: '720px', // Added minimum height for consistency
+                          minHeight: '600px',
                           display: 'flex',
                           flexDirection: 'column',
-                          boxShadow: album.featured 
-                            ? `0 20px 40px ${album.color}20, 0 4px 12px rgba(0, 0, 0, 0.3)`
-                            : '0 8px 32px rgba(0, 0, 0, 0.3)',
+                          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
                           '&:hover': {
-                            transform: 'translateY(-12px) scale(1.03)',
-                            boxShadow: `0 40px 80px ${album.color}30, 0 20px 40px rgba(0, 0, 0, 0.4)`,
-                            border: `2px solid ${album.color}`,
+                            transform: 'translateY(-8px)',
+                            boxShadow: `0 20px 40px rgba(59, 130, 246, 0.15)`,
+                            border: `1px solid rgba(59, 130, 246, 0.3)`,
                             '& .album-media': {
-                              transform: 'scale(1.1)',
+                              transform: 'scale(1.05)',
                             },
-                            '& .album-overlay': {
-                              opacity: 1,
-                            },
-                            '& .featured-badge': {
-                              transform: 'scale(1.1)',
-                            }
                           },
                           '&::before': {
                             content: '""',
@@ -228,62 +254,39 @@ const Music: React.FC = () => {
                             left: 0,
                             right: 0,
                             bottom: 0,
-                            background: `linear-gradient(135deg, ${album.color}08 0%, transparent 50%, ${album.color}05 100%)`,
-                            opacity: album.featured ? 1 : 0,
-                            transition: 'opacity 0.3s ease',
-                            pointerEvents: 'none',
-                          },
-                          '&::after': {
-                            content: '""',
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            bottom: 0,
-                            background: 'linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.1) 100%)',
+                            background: `linear-gradient(135deg, rgba(59, 130, 246, 0.03) 0%, transparent 50%, rgba(244, 63, 94, 0.02) 100%)`,
                             pointerEvents: 'none',
                           }
                         }}
-                      >{album.featured && (
-                          <Box sx={{ position: 'absolute', top: 16, right: 16, zIndex: 2, display: 'flex', flexDirection: 'column', gap: 1 }}>
+                      >
+                        {album.featured && (
+                          <Box sx={{ position: 'absolute', top: 16, right: 16, zIndex: 2 }}>
                             <Chip
-                              icon={<SmartToy sx={{ fontSize: '0.8rem !important' }} />}
-                              label={album.status === 'coming-soon' ? 'Coming Soon' : 'AI Generated'}
+                              icon={<AutoAwesome sx={{ fontSize: '0.8rem !important' }} />}
+                              label={album.status === 'coming-soon' ? 'Coming Soon' : 'Featured'}
                               sx={{
                                 fontWeight: 600,
                                 background: album.status === 'coming-soon' 
-                                  ? 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)'
-                                  : 'linear-gradient(135deg, #00f5ff 0%, #0ea5e9 100%)',
+                                  ? 'rgba(251, 191, 36, 0.9)'
+                                  : 'rgba(59, 130, 246, 0.9)',
                                 color: 'white',
                                 border: 'none',
                                 fontSize: '0.7rem',
-                                height: '24px',
+                                height: '28px',
+                                backdropFilter: 'blur(10px)',
                                 '& .MuiChip-label': {
-                                  px: 1,
-                                },
-                                '& .MuiChip-icon': {
-                                  fontSize: '0.8rem',
-                                },
-                                animation: 'aiGlow 2s ease-in-out infinite alternate',
-                                '@keyframes aiGlow': {
-                                  '0%': { 
-                                    boxShadow: '0 0 10px rgba(0, 245, 255, 0.3)',
-                                  },
-                                  '100%': { 
-                                    boxShadow: '0 0 20px rgba(0, 245, 255, 0.6)',
-                                  },
+                                  px: 1.5,
                                 },
                               }}
                             />
                           </Box>
-                        )}
-                          <CardMedia
+                        )}                        <CardMedia
                           className="album-media"
                           sx={{
-                            height: 260,
+                            height: 240,
                             background: album.image 
                               ? `url(${album.image})` 
-                              : `linear-gradient(135deg, ${album.color}20 0%, ${album.color}40 100%)`,
+                              : `linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(244, 63, 94, 0.1) 100%)`,
                             backgroundSize: 'cover',
                             backgroundPosition: 'center',
                             backgroundRepeat: 'no-repeat',
@@ -291,28 +294,8 @@ const Music: React.FC = () => {
                             alignItems: 'center',
                             justifyContent: 'center',
                             position: 'relative',
-                            transition: 'transform 0.5s ease',
-                            '&::before': album.image ? {
-                              content: '""',
-                              position: 'absolute',
-                              top: 0,
-                              left: 0,
-                              right: 0,
-                              bottom: 0,
-                              background: 'linear-gradient(135deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 100%)',
-                            } : {
-                              content: '"♫"',
-                              fontSize: '4rem',
-                              color: `${album.color}60`,
-                              position: 'absolute',
-                              opacity: 0.4,
-                              animation: 'float 3s ease-in-out infinite',
-                              '@keyframes float': {
-                                '0%, 100%': { transform: 'translateY(0px)' },
-                                '50%': { transform: 'translateY(-10px)' },
-                              }
-                            },
-                            '&::after': {
+                            transition: 'transform 0.4s ease',
+                            '&::before': {
                               content: '""',
                               position: 'absolute',
                               top: 0,
@@ -321,8 +304,8 @@ const Music: React.FC = () => {
                               bottom: 0,
                               background: album.image 
                                 ? 'linear-gradient(135deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.05) 100%)'
-                                : `radial-gradient(circle at center, transparent 30%, ${album.color}08 70%)`,
-                            }
+                                : 'transparent',
+                            },
                           }}
                         >
                           {!album.image && (
@@ -331,18 +314,17 @@ const Music: React.FC = () => {
                                 position: 'relative',
                                 zIndex: 1,
                                 textAlign: 'center',
-                                color: 'white',
+                                color: 'rgba(255, 255, 255, 0.6)',
                               }}
                             >
-                              <MusicNote sx={{ fontSize: '3rem', mb: 1, opacity: 0.8 }} />
-                              <Typography variant="h6" sx={{ fontWeight: 600, opacity: 0.9 }}>
+                              <MusicNote sx={{ fontSize: '3rem', mb: 1, opacity: 0.6 }} />
+                              <Typography variant="body2" sx={{ fontWeight: 500, opacity: 0.8 }}>
                                 Album Cover
                               </Typography>
                             </Box>
                           )}
                         </CardMedia>
-                        
-                        <CardContent sx={{ 
+                          <CardContent sx={{ 
                           p: 3, 
                           position: 'relative', 
                           zIndex: 1,
@@ -357,8 +339,8 @@ const Music: React.FC = () => {
                               sx={{ 
                                 mb: 1, 
                                 fontWeight: 700,
-                                color: 'white',
-                                fontSize: '1.4rem',
+                                color: 'text.primary',
+                                fontSize: '1.3rem',
                               }}
                             >
                               {album.title}
@@ -366,20 +348,22 @@ const Music: React.FC = () => {
                             <Typography 
                               variant="body2" 
                               sx={{ 
-                                color: 'rgba(255, 255, 255, 0.7)', 
-                                mb: 1,
-                                fontSize: '1rem',
+                                color: 'text.secondary', 
+                                mb: 2,
+                                fontSize: '0.95rem',
                               }}
                             >
                               {album.year} • {album.genre} • {album.tracks} tracks
                             </Typography>
-                          </Box>                          {/* AI Features */}
+                          </Box>
+
+                          {/* AI Features */}
                           <Box sx={{ mb: 3, flex: '0 0 auto' }}>
                             <Typography 
                               variant="caption" 
                               sx={{ 
-                                color: '#00f5ff', 
-                                fontWeight: 700, 
+                                color: 'primary.main', 
+                                fontWeight: 600, 
                                 fontSize: '0.8rem',
                                 textTransform: 'uppercase',
                                 letterSpacing: '1px',
@@ -399,18 +383,17 @@ const Music: React.FC = () => {
                                   label={feature}
                                   size="small"
                                   sx={{
-                                    background: 'rgba(0, 245, 255, 0.12)',
-                                    border: '1px solid rgba(0, 245, 255, 0.25)',
-                                    color: '#00f5ff',
+                                    background: 'rgba(59, 130, 246, 0.1)',
+                                    border: '1px solid rgba(59, 130, 246, 0.2)',
+                                    color: 'primary.main',
                                     fontSize: '0.7rem',
-                                    height: '22px',
-                                    fontWeight: 600,
+                                    height: '24px',
+                                    fontWeight: 500,
                                     '&:hover': {
-                                      background: 'rgba(0, 245, 255, 0.2)',
+                                      background: 'rgba(59, 130, 246, 0.15)',
                                       transform: 'translateY(-1px)',
-                                      boxShadow: '0 4px 12px rgba(0, 245, 255, 0.2)',
                                     },
-                                    transition: 'all 0.3s ease',
+                                    transition: 'all 0.2s ease',
                                   }}
                                 />
                               ))}
@@ -419,49 +402,51 @@ const Music: React.FC = () => {
 
                           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                              <TrendingUp sx={{ fontSize: '1rem', color: album.color }} />
-                              <Typography variant="body2" sx={{ color: album.color, fontWeight: 600 }}>
+                              <TrendingUp sx={{ fontSize: '1rem', color: 'primary.main' }} />
+                              <Typography variant="body2" sx={{ color: 'primary.main', fontWeight: 600 }}>
                                 {album.streams}
                               </Typography>
                             </Box>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                               <Star sx={{ fontSize: '1rem', color: '#fbbf24' }} />
-                              <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.8)', fontWeight: 600 }}>
+                              <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 600 }}>
                                 {album.rating || 'N/A'}
                               </Typography>
                             </Box>
-                          </Box>
-
-                          {/* Track List Expand Button */}
+                          </Box>                          {/* Track List Expand Button */}
                           <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
                             <IconButton
                               onClick={() => toggleAlbumExpansion(album.id)}
                               sx={{
-                                color: album.color,
-                                background: `${album.color}15`,
-                                borderRadius: '12px',
-                                px: 2,
-                                py: 1,
+                                color: 'primary.main',
+                                background: 'rgba(59, 130, 246, 0.1)',
+                                borderRadius: '14px',
+                                px: 2.5,
+                                py: 1.2,
+                                border: '1px solid rgba(59, 130, 246, 0.2)',
                                 '&:hover': {
-                                  background: `${album.color}25`,
-                                  transform: 'scale(1.05)',
+                                  background: 'rgba(59, 130, 246, 0.2)',
+                                  transform: 'translateY(-2px)',
+                                  boxShadow: '0 8px 20px rgba(59, 130, 246, 0.3)',
                                 },
                                 transition: 'all 0.3s ease',
                               }}
                             >
                               <MusicNote sx={{ fontSize: '1rem', mr: 1 }} />
-                              <Typography variant="body2" sx={{ fontWeight: 600, mr: 1 }}>
+                              <Typography variant="body2" sx={{ fontWeight: 600, mr: 1, fontSize: '0.9rem' }}>
                                 View Tracks
                               </Typography>
                               {expandedAlbum === album.id ? <ExpandLess /> : <ExpandMore />}
                             </IconButton>
-                          </Box>                          {/* Track List - Simplified */}
+                          </Box>
+
+                          {/* Track List - Simplified */}
                           <Collapse in={expandedAlbum === album.id}>
                             <Box 
                               sx={{ 
                                 mt: 2, 
                                 p: 2, 
-                                background: 'rgba(0, 0, 0, 0.2)',
+                                background: 'rgba(0, 0, 0, 0.1)',
                                 borderRadius: '12px',
                                 border: `1px solid rgba(255, 255, 255, 0.1)`,
                               }}
@@ -469,30 +454,17 @@ const Music: React.FC = () => {
                               <Typography 
                                 variant="subtitle2" 
                                 sx={{ 
-                                  color: album.color, 
+                                  color: 'primary.main', 
                                   fontWeight: 700, 
                                   mb: 2,
                                   textAlign: 'center',
-                                  fontSize: '0.95rem',
+                                  fontSize: '0.9rem',
                                   textTransform: 'uppercase',
                                   letterSpacing: '1px',
                                 }}
-                              >                                Track Listing
+                              >
+                                Track Listing
                               </Typography>
-                              {album.trackList.length > 5 && (
-                                <Typography
-                                  variant="caption"
-                                  sx={{
-                                    display: 'block',
-                                    textAlign: 'center',
-                                    color: 'rgba(255, 255, 255, 0.5)',
-                                    fontSize: '0.75rem',
-                                    mb: 1,
-                                  }}
-                                >
-                                  All {album.tracks} tracks shown
-                                </Typography>
-                              )}
                               <List sx={{ 
                                 p: 0,
                                 maxHeight: '300px',
@@ -501,7 +473,7 @@ const Music: React.FC = () => {
                                   width: '6px',
                                 },
                                 '&::-webkit-scrollbar-thumb': {
-                                  backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                                  backgroundColor: 'rgba(59, 130, 246, 0.3)',
                                   borderRadius: '3px',
                                 },
                                 '&::-webkit-scrollbar-track': {
@@ -509,48 +481,55 @@ const Music: React.FC = () => {
                                   borderRadius: '3px',
                                 }
                               }}>
-                                {album.trackList.map((track, trackIndex) => (                                  <ListItem
+                                {album.trackList.map((track, trackIndex) => (
+                                  <ListItem
                                     key={trackIndex}
                                     sx={{
-                                      py: 0.8, // Reduced vertical padding
+                                      py: 0.8,
                                       px: 2,
                                       borderRadius: '8px',
-                                      mb: 0.8, // Reduced margin
-                                      background: track.featured ? 'rgba(255, 255, 255, 0.05)' : 'transparent',
-                                      border: track.featured ? `1px solid ${album.color}30` : '1px solid transparent',
+                                      mb: 0.8,
+                                      background: track.featured ? 'rgba(59, 130, 246, 0.1)' : 'transparent',
+                                      border: track.featured ? `1px solid rgba(59, 130, 246, 0.2)` : '1px solid transparent',
+                                      '&:hover': {
+                                        background: 'rgba(59, 130, 246, 0.05)',
+                                      },
+                                      transition: 'all 0.2s ease',
                                     }}
-                                  >                                    <Box
+                                  >
+                                    <Box
                                       sx={{
                                         width: 24,
                                         height: 24,
                                         borderRadius: '50%',
                                         background: track.featured 
-                                          ? album.color
+                                          ? 'primary.main'
                                           : 'rgba(255, 255, 255, 0.1)',
                                         display: 'flex',
                                         alignItems: 'center',
                                         justifyContent: 'center',
                                         fontSize: '0.75rem',
                                         fontWeight: 700,
-                                        color: track.featured ? 'white' : 'rgba(255, 255, 255, 0.6)',
+                                        color: track.featured ? 'white' : 'text.secondary',
                                         mr: 2,
                                         flexShrink: 0,
                                       }}
                                     >
                                       {trackIndex + 1}
                                     </Box>
-                                      <ListItemText
+                                    <ListItemText
                                       primary={
                                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                                           <Typography
-                                            variant="body2"                                            sx={{
-                                              color: track.featured ? 'white' : 'rgba(255, 255, 255, 0.8)',
+                                            variant="body2"
+                                            sx={{
+                                              color: track.featured ? 'text.primary' : 'text.secondary',
                                               fontWeight: track.featured ? 600 : 400,
                                               fontSize: '0.9rem',
                                               overflow: 'hidden',
                                               textOverflow: 'ellipsis',
                                               whiteSpace: 'nowrap',
-                                              maxWidth: '200px', // Increased from 150px for better readability
+                                              maxWidth: '200px',
                                             }}
                                           >
                                             {track.title}
@@ -562,7 +541,7 @@ const Music: React.FC = () => {
                                               sx={{
                                                 height: '18px',
                                                 fontSize: '0.7rem',
-                                                background: album.color,
+                                                background: 'primary.main',
                                                 color: 'white',
                                                 fontWeight: 600,
                                               }}
@@ -572,11 +551,11 @@ const Music: React.FC = () => {
                                       }
                                     />
                                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                                      <AccessTime sx={{ fontSize: '0.8rem', color: 'rgba(255, 255, 255, 0.5)' }} />
+                                      <AccessTime sx={{ fontSize: '0.8rem', color: 'text.secondary' }} />
                                       <Typography
                                         variant="caption"
                                         sx={{
-                                          color: track.duration ? 'rgba(255, 255, 255, 0.5)' : '#00f5ff',
+                                          color: track.duration ? 'text.secondary' : 'primary.main',
                                           fontSize: '0.8rem',
                                           fontWeight: 500,
                                           fontFamily: 'monospace',
@@ -597,26 +576,24 @@ const Music: React.FC = () => {
                 ))}
               </Grid>
             </motion.div>
-          </Box>
-        </motion.div>        {/* Latest Singles */}
-
-        {/* AI Innovation Showcase */}
+          </Box>        </motion.div>        {/* AI Innovation Showcase */}
         <motion.div
-          variants={fadeInUp}
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true, amount: 0.3 }}
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.5 }}
         >
           <Box 
             sx={{ 
-              mt: 12,
-              p: 6,
-              borderRadius: '24px',
-              background: 'linear-gradient(135deg, rgba(0, 245, 255, 0.05) 0%, rgba(99, 102, 241, 0.05) 50%, rgba(236, 72, 153, 0.05) 100%)',
-              border: '1px solid rgba(0, 245, 255, 0.2)',
+              mt: { xs: 8, md: 12 },
+              p: { xs: 4, md: 6 },
+              borderRadius: '20px',
+              background: 'rgba(255, 255, 255, 0.02)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
               textAlign: 'center',
               position: 'relative',
               overflow: 'hidden',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
               '&::before': {
                 content: '""',
                 position: 'absolute',
@@ -624,7 +601,7 @@ const Music: React.FC = () => {
                 left: 0,
                 right: 0,
                 bottom: 0,
-                background: 'repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(0, 245, 255, 0.02) 2px, rgba(0, 245, 255, 0.02) 4px)',
+                background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.03) 0%, rgba(244, 63, 94, 0.02) 100%)',
                 pointerEvents: 'none',
               }
             }}
@@ -636,19 +613,25 @@ const Music: React.FC = () => {
                   mb: 3,
                   fontSize: { xs: '2rem', md: '2.8rem' },
                   fontWeight: 800,
-                  background: 'linear-gradient(135deg, #00f5ff 0%, #6366f1 50%, #ec4899 100%)',
+                  background: 'linear-gradient(135deg, #3b82f6 0%, #60a5fa 50%, #f43f5e 100%)',
+                  backgroundSize: '200% auto',
+                  animation: 'gradient 4s linear infinite',
+                  '@keyframes gradient': {
+                    '0%': { backgroundPosition: '0% center' },
+                    '100%': { backgroundPosition: '200% center' },
+                  },
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text',
                 }}
               >
-                🚀 Revolutionary AI Music
+                Revolutionary Music Technology
               </Typography>
               <Typography
                 variant="h6"
                 sx={{
                   mb: 4,
-                  color: 'rgba(255, 255, 255, 0.8)',
+                  color: 'text.secondary',
                   maxWidth: 600,
                   mx: 'auto',
                   lineHeight: 1.7,
@@ -657,59 +640,70 @@ const Music: React.FC = () => {
                 Experience the future of music creation where artificial intelligence meets human emotion. 
                 Every beat, every lyric, every melody crafted by cutting-edge AI technology.
               </Typography>
-              <Box sx={{ display: 'flex', justifyContent: 'center', gap: 4, flexWrap: 'wrap', mb: 4 }}>
+              <Box sx={{ 
+                display: 'flex', 
+                justifyContent: 'center', 
+                gap: 4, 
+                flexWrap: 'wrap', 
+                mb: 4,
+                flexDirection: { xs: 'column', sm: 'row' },
+                alignItems: 'center'
+              }}>
                 {[
                   { icon: <Psychology />, label: 'Neural Networks', desc: 'Deep learning composition' },
                   { icon: <AutoAwesome />, label: 'Smart Lyrics', desc: 'AI-generated storytelling' },
                   { icon: <Equalizer />, label: 'Adaptive Mixing', desc: 'Intelligent audio processing' },
                 ].map((feature, index) => (
-                  <Box
+                  <motion.div
                     key={index}
-                    sx={{
-                      textAlign: 'center',
-                      p: 3,
-                      borderRadius: '16px',
-                      background: 'rgba(255, 255, 255, 0.03)',
-                      border: '1px solid rgba(255, 255, 255, 0.1)',
-                      minWidth: '180px',
-                      '&:hover': {
-                        background: 'rgba(0, 245, 255, 0.1)',
-                        border: '1px solid rgba(0, 245, 255, 0.3)',
-                        transform: 'translateY(-5px)',
-                      },
-                      transition: 'all 0.3s ease',
-                    }}
+                    whileHover={{ y: -5, scale: 1.02 }}
+                    transition={{ duration: 0.3 }}
                   >
-                    <Box sx={{ color: '#00f5ff', fontSize: '2.5rem', mb: 1 }}>
-                      {feature.icon}
+                    <Box
+                      sx={{
+                        textAlign: 'center',
+                        p: 3,
+                        borderRadius: '16px',
+                        background: 'rgba(255, 255, 255, 0.02)',
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        minWidth: '180px',
+                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.08)',
+                        '&:hover': {
+                          background: 'rgba(59, 130, 246, 0.1)',
+                          border: '1px solid rgba(59, 130, 246, 0.2)',
+                          boxShadow: '0 8px 24px rgba(59, 130, 246, 0.15)',
+                        },
+                        transition: 'all 0.3s ease',
+                      }}
+                    >
+                      <Box sx={{ color: 'primary.main', fontSize: '2.5rem', mb: 1 }}>
+                        {feature.icon}
+                      </Box>
+                      <Typography variant="h6" sx={{ color: 'text.primary', fontWeight: 600, mb: 1 }}>
+                        {feature.label}
+                      </Typography>
+                      <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                        {feature.desc}
+                      </Typography>
                     </Box>
-                    <Typography variant="h6" sx={{ color: 'white', fontWeight: 600, mb: 1 }}>
-                      {feature.label}
-                    </Typography>
-                    <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.6)' }}>
-                      {feature.desc}
-                    </Typography>
-                  </Box>
+                  </motion.div>
                 ))}
               </Box>
               <Typography
                 variant="body1"
                 sx={{
-                  color: '#00f5ff',
+                  color: 'primary.main',
                   fontWeight: 600,
                   fontSize: '1.1rem',
                   textTransform: 'uppercase',
                   letterSpacing: '2px',
-                  textShadow: '0 0 15px rgba(0, 245, 255, 0.3)',
                 }}
               >
-                The First AI Song Producer in History
+                The Future of Music Production
               </Typography>
             </Box>
           </Box>
         </motion.div>
-
-       {/* Enhanced Call to Action */}
       </Container>
     </Box>
   );

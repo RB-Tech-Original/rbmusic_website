@@ -168,53 +168,55 @@ const Header: React.FC = () => {
         damping: 30,
         mass: 1.2
       }}
-    >
-      <Box sx={{ 
+    >      <Box sx={{ 
         width: 300, 
         pt: 2,
-        background: 'linear-gradient(135deg, rgba(15, 15, 35, 0.98) 0%, rgba(26, 26, 46, 0.98) 100%)',
+        background: `
+          radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.12) 0%, transparent 50%),
+          radial-gradient(circle at 90% 80%, rgba(244, 63, 94, 0.12) 0%, transparent 50%),
+          linear-gradient(135deg, rgba(15, 15, 35, 0.98) 0%, rgba(26, 26, 46, 0.98) 100%)
+        `,
         backdropFilter: 'blur(20px)',
         height: '100vh',
-        borderRight: '1px solid rgba(255, 255, 255, 0.1)',
+        borderRight: '1px solid rgba(59, 130, 246, 0.2)',
+        position: 'relative',
+        overflow: 'hidden',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: `
+            linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px)
+          `,
+          backgroundSize: '30px 30px',
+          opacity: 0.4,
+          pointerEvents: 'none',
+        },
       }}>
         {/* Mobile Header */}
         <Box sx={{ 
           display: 'flex', 
           alignItems: 'center',
-          justifyContent: 'space-between',
-          px: 3,
+          justifyContent: 'space-between',          px: 3,
           pb: 3,
-          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+          borderBottom: '1px solid rgba(59, 130, 246, 0.2)',
           mb: 2
-        }}>          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <Avatar
-              src="/LogoRBTECH_new.png"
+        }}>          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>            <Avatar
+              src="/RB_ROUND.png"
               alt="RB TECH Music Logo"
               sx={{ 
                 width: 40, 
                 height: 40,
-                background: 'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)',
+                background: 'transparent',
               }}
             />
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>          
               <Typography 
                 variant="h6" 
                 sx={{ 
                   fontWeight: 700,
-                  background: 'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}
-              >
-                RB
-              </Typography>
-              <SoundWave />
-              <Typography 
-                variant="h6" 
-                sx={{ 
-                  fontWeight: 700,
-                  background: 'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)',
+                  background: 'linear-gradient(135deg, #3b82f6 0%, #f43f5e 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text',
@@ -222,23 +224,23 @@ const Header: React.FC = () => {
               >
                 MUSIC
               </Typography>
+              <SoundWave />
             </Box>
           </Box>          <IconButton 
-            onClick={handleDrawerToggle}
-            sx={{ 
+            onClick={handleDrawerToggle}            sx={{ 
               color: 'white',
-              background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%)',
-              border: '1px solid rgba(99, 102, 241, 0.3)',
+              background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(244, 63, 94, 0.2) 100%)',
+              border: '1px solid rgba(59, 130, 246, 0.3)',
               borderRadius: '12px',
               width: 40,
               height: 40,
               backdropFilter: 'blur(8px)',
               boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
               '&:hover': {
-                background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.3) 0%, rgba(236, 72, 153, 0.3) 100%)',
-                border: '1px solid rgba(99, 102, 241, 0.5)',
+                background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.3) 0%, rgba(244, 63, 94, 0.3) 100%)',
+                border: '1px solid rgba(59, 130, 246, 0.5)',
                 transform: 'rotate(90deg) scale(1.05)',
-                boxShadow: '0 6px 18px rgba(99, 102, 241, 0.25)',
+                boxShadow: '0 6px 18px rgba(59, 130, 246, 0.25)',
               },
               transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
             }}
@@ -288,41 +290,39 @@ const Header: React.FC = () => {
                       onClick={() => scrollToSection(item.label)}
                       sx={{
                         borderRadius: '16px',
-                        p: 2,
-                        background: isActive 
-                          ? 'linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%)' 
+                        p: 2,                        background: isActive 
+                          ? 'linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(244, 63, 94, 0.2) 100%)' 
                           : 'rgba(255, 255, 255, 0.03)',
                         border: isActive
-                          ? '1px solid rgba(99, 102, 241, 0.5)'
+                          ? '1px solid rgba(59, 130, 246, 0.5)'
                           : '1px solid rgba(255, 255, 255, 0.08)',
                         boxShadow: isActive ? '0 4px 12px rgba(0, 0, 0, 0.15)' : 'none',
                         backdropFilter: 'blur(8px)',
                         '&:hover': {
-                          background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.3) 0%, rgba(236, 72, 153, 0.3) 100%)',
-                          border: '1px solid rgba(99, 102, 241, 0.4)',
+                          background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.3) 0%, rgba(244, 63, 94, 0.3) 100%)',
+                          border: '1px solid rgba(59, 130, 246, 0.4)',
                           transform: 'translateX(8px) translateY(-2px)',
-                          boxShadow: '0 6px 16px rgba(99, 102, 241, 0.15)',
+                          boxShadow: '0 6px 16px rgba(59, 130, 246, 0.15)',
                         },
                         '&:active': {
                           transform: 'translateX(4px) translateY(0px)',
-                          boxShadow: '0 2px 8px rgba(99, 102, 241, 0.1)',
+                          boxShadow: '0 2px 8px rgba(59, 130, 246, 0.1)',
                         },
                         transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
                       }}
                     >                      <IconButton 
-                        sx={{ 
-                          color: isActive ? '#6366f1' : '#a1a1aa',
+                        sx={{                          color: isActive ? '#3b82f6' : '#a1a1aa',
                           background: isActive 
-                            ? 'linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%)'
+                            ? 'linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(244, 63, 94, 0.2) 100%)'
                             : 'rgba(255, 255, 255, 0.05)',
                           width: 38,
                           height: 38,
                           borderRadius: '12px',
                           border: isActive
-                            ? '1px solid rgba(99, 102, 241, 0.4)'
+                            ? '1px solid rgba(59, 130, 246, 0.4)'
                             : '1px solid rgba(255, 255, 255, 0.1)',
                           mr: 2,
-                          boxShadow: isActive ? '0 2px 10px rgba(99, 102, 241, 0.2)' : 'none',
+                          boxShadow: isActive ? '0 2px 10px rgba(59, 130, 246, 0.2)' : 'none',
                           transition: 'all 0.3s ease',
                           position: 'relative',
                           overflow: 'hidden'
@@ -335,17 +335,16 @@ const Header: React.FC = () => {
                               top: 0,
                               left: 0,
                               width: '100%',
-                              height: '100%',
-                              background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(236, 72, 153, 0.3))',
+                              height: '100%',                              background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(244, 63, 94, 0.3))',
                               zIndex: 0
                             }}
                             animate={{
                               background: [
-                                'linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(236, 72, 153, 0.3))',
-                                'linear-gradient(225deg, rgba(99, 102, 241, 0.3), rgba(236, 72, 153, 0.3))',
-                                'linear-gradient(315deg, rgba(99, 102, 241, 0.3), rgba(236, 72, 153, 0.3))',
-                                'linear-gradient(45deg, rgba(99, 102, 241, 0.3), rgba(236, 72, 153, 0.3))',
-                                'linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(236, 72, 153, 0.3))'
+                                'linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(244, 63, 94, 0.3))',
+                                'linear-gradient(225deg, rgba(59, 130, 246, 0.3), rgba(244, 63, 94, 0.3))',
+                                'linear-gradient(315deg, rgba(59, 130, 246, 0.3), rgba(244, 63, 94, 0.3))',
+                                'linear-gradient(45deg, rgba(59, 130, 246, 0.3), rgba(244, 63, 94, 0.3))',
+                                'linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(244, 63, 94, 0.3))'
                               ]
                             }}
                             transition={{
@@ -367,7 +366,7 @@ const Header: React.FC = () => {
                             fontWeight: 700,
                             fontSize: '1.1rem',
                             letterSpacing: '0.5px',
-                            color: isActive ? '#6366f1' : 'white',
+                            color: isActive ? '#3b82f6' : 'white',
                             transition: 'all 0.3s ease',
                             position: 'relative',
                             display: 'inline-block',
@@ -378,7 +377,7 @@ const Header: React.FC = () => {
                               left: 0,
                               width: isActive ? '100%' : '0%',
                               height: 2,
-                              background: 'linear-gradient(90deg, #6366f1 0%, #ec4899 100%)',
+                              background: 'linear-gradient(90deg, #3b82f6 0%, #f43f5e 100%)',
                               borderRadius: '2px',
                               transition: 'width 0.4s ease',
                             }
@@ -407,14 +406,14 @@ const Header: React.FC = () => {
                             label="Active"
                             size="small"
                             sx={{
-                              background: 'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)',
+                              background: 'linear-gradient(135deg, #3b82f6 0%, #f43f5e 100%)',
                               color: 'white',
                               fontWeight: 700,
                               fontSize: '0.7rem',
                               height: '24px',
                               backdropFilter: 'blur(8px)',
                               border: '1px solid rgba(255, 255, 255, 0.2)',
-                              boxShadow: '0 4px 12px rgba(99, 102, 241, 0.3)',
+                              boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)',
                               ml: 1,
                               '& .MuiChip-label': {
                                 px: 1,
@@ -439,20 +438,42 @@ const Header: React.FC = () => {
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: 'easeOut' }}
-      >
-        <AppBar 
+      >        <AppBar 
           position="fixed" 
           sx={{ 
             background: scrolled 
-              ? 'rgba(15, 15, 35, 0.95)' 
-              : 'rgba(15, 15, 35, 0.8)',
+              ? `
+                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(244, 63, 94, 0.12) 0%, transparent 50%),
+                rgba(15, 15, 35, 0.95)
+              `
+              : `
+                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(244, 63, 94, 0.08) 0%, transparent 50%),
+                rgba(15, 15, 35, 0.85)
+              `,
             backdropFilter: 'blur(20px)',
             transition: 'all 0.3s ease',
-            border: scrolled ? '1px solid rgba(255, 255, 255, 0.15)' : '1px solid rgba(255, 255, 255, 0.1)',
+            border: scrolled ? '1px solid rgba(59, 130, 246, 0.2)' : '1px solid rgba(59, 130, 246, 0.1)',
             boxShadow: scrolled 
               ? '0 8px 32px rgba(0, 0, 0, 0.4)' 
               : '0 4px 16px rgba(0, 0, 0, 0.2)',
-            zIndex: 1300,
+            zIndex: 9999,
+            position: 'relative',
+            overflow: 'hidden',
+            '&::before': {
+              content: '""',
+              position: 'absolute',
+              inset: 0,
+              backgroundImage: `
+                linear-gradient(rgba(59, 130, 246, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.02) 1px, transparent 1px)
+              `,
+              backgroundSize: '40px 40px',
+              opacity: scrolled ? 0.5 : 0.3,
+              transition: 'opacity 0.3s ease',
+              pointerEvents: 'none',
+            },
           }}
         >
           <Toolbar sx={{ justifyContent: 'space-between', py: 1.5, px: { xs: 2, sm: 3, md: 4 } }}>
@@ -463,55 +484,51 @@ const Header: React.FC = () => {
               whileTap="tap"
               style={{ cursor: 'pointer' }}
               onClick={() => scrollToSection('Home')}
-            >
-              <Box 
+            >              <Box 
                 sx={{ 
                   display: 'flex', 
                   alignItems: 'center', 
-                  gap: 2,
-                  p: { xs: 1, sm: 1.5 },
-                  borderRadius: '18px',
-                  background: scrolled 
-                    ? 'rgba(15, 15, 35, 0.6)' 
-                    : 'transparent',
-                  border: '1px solid rgba(99, 102, 241, 0.15)',
-                  transition: 'all 0.4s ease',
-                  '&:hover': {
-                    background: 'rgba(15, 15, 35, 0.8)',
-                    border: '1px solid rgba(99, 102, 241, 0.3)',
-                    boxShadow: '0 8px 32px rgba(99, 102, 241, 0.15)',
-                    transform: 'translateY(-2px)'
-                  }
+                  gap: 2
                 }}
-              >
-                <motion.div
-                  animate={{
-                    boxShadow: [
-                      '0 0 0 rgba(99, 102, 241, 0)',
-                      '0 0 15px rgba(99, 102, 241, 0.5)',
-                      '0 0 0 rgba(99, 102, 241, 0)'
-                    ],
+              >                <motion.div
+                  animate={{ 
+                    scale: [1, 1.05, 1],
+                    y: [0, -4, 0],
+                    filter: [
+                      'drop-shadow(0 2px 8px rgba(0,0,0,0.3))',
+                      'drop-shadow(0 8px 20px rgba(59, 130, 246, 0.4))',
+                      'drop-shadow(0 2px 8px rgba(0,0,0,0.3))'
+                    ]
                   }}
                   transition={{
-                    duration: 2.5,
+                    duration: 3,
                     repeat: Infinity,
-                    repeatType: 'loop',
+                    ease: "easeInOut"
+                  }}
+                  whileHover={{
+                    scale: 1.1,
+                    y: -3,
+                    filter: 'drop-shadow(0 10px 25px rgba(59, 130, 246, 0.6))',
+                    transition: { duration: 0.3 }
+                  }}
+                  style={{
+                    width: '50px',
+                    height: '50px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    position: 'relative',
                   }}
                 >
-                  <Avatar
-                    src="/LogoRBTECH_new.png"
+                  <Box
+                    component="img"
+                    src="/RB_ROUND.png"
                     alt="RB TECH Music Logo"
-                    sx={{ 
+                    sx={{
                       width: { xs: 45, sm: 50 }, 
                       height: { xs: 45, sm: 50 },
-                      background: 'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)',
-                      border: '2px solid rgba(255, 255, 255, 0.1)',
-                      transition: 'all 0.3s ease',
-                      '&:hover': {
-                        border: '2px solid rgba(99, 102, 241, 0.5)',
-                        boxShadow: '0 0 20px rgba(99, 102, 241, 0.3)',
-                        transform: 'rotate(5deg)'
-                      }
+                      objectFit: 'contain',
+                      filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.3))',
                     }}
                   />
                 </motion.div>
@@ -526,8 +543,7 @@ const Header: React.FC = () => {
                       bottom: -4,
                       left: 0,
                       width: '100%',
-                      height: 2,
-                      background: 'linear-gradient(90deg, rgba(99, 102, 241, 0) 0%, rgba(99, 102, 241, 0.5) 50%, rgba(236, 72, 153, 0.5) 100%)',
+                      height: 2,                      background: 'linear-gradient(90deg, rgba(59, 130, 246, 0) 0%, rgba(59, 130, 246, 0.5) 50%, rgba(244, 63, 94, 0.5) 100%)',
                       borderRadius: '2px',
                       opacity: scrolled ? 1 : 0,
                       transition: 'opacity 0.4s ease'
@@ -540,49 +556,33 @@ const Header: React.FC = () => {
                       y: -1,
                       transition: { duration: 0.3, ease: 'easeOut' }
                     }}
-                  >
-                    <Typography 
-                      variant="h4" 
-                      component="div" 
-                      sx={{ 
-                        fontWeight: 800,
-                        fontSize: { xs: '1.5rem', sm: '2rem' },
-                        background: 'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        backgroundClip: 'text',
-                        letterSpacing: '0.5px',
-                        textShadow: '0 2px 10px rgba(99, 102, 241, 0.3)',
-                      }}
-                    >
-                      RB
-                    </Typography>
+                  >                    
                   </motion.div>
-                  <SoundWave barCount={6} barWidth={2.5} />
                   <motion.div
                     whileHover={{
                       scale: 1.05,
                       y: -1,
                       transition: { duration: 0.3, ease: 'easeOut' }
                     }}
-                  >
-                    <Typography 
+                  >                    <Typography 
                       variant="h4" 
                       component="div" 
                       sx={{ 
                         fontWeight: 800,
                         fontSize: { xs: '1.5rem', sm: '2rem' },
-                        background: 'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)',
+                        background: 'linear-gradient(135deg, #3b82f6 0%, #f43f5e 100%)',
                         WebkitBackgroundClip: 'text',
                         WebkitTextFillColor: 'transparent',
                         backgroundClip: 'text',
                         letterSpacing: '0.5px',
-                        textShadow: '0 2px 10px rgba(99, 102, 241, 0.3)',
+                        textShadow: '0 2px 10px rgba(59, 130, 246, 0.3)',
                       }}
                     >
                       MUSIC
                     </Typography>
+                    
                   </motion.div>
+                  <SoundWave barCount={6} barWidth={2.5} />
                 </Box>
               </Box>
             </motion.div>{/* Desktop Navigation */}            {!isMobile ? (
@@ -612,15 +612,14 @@ const Header: React.FC = () => {
                             py: 1.5,
                             borderRadius: '14px',
                             position: 'relative',
-                            overflow: 'hidden',
-                            background: isActive 
-                              ? 'linear-gradient(135deg, rgba(99, 102, 241, 0.25) 0%, rgba(236, 72, 153, 0.25) 100%)'
+                            overflow: 'hidden',                            background: isActive 
+                              ? 'linear-gradient(135deg, rgba(59, 130, 246, 0.25) 0%, rgba(244, 63, 94, 0.25) 100%)'
                               : 'rgba(255, 255, 255, 0.03)',
                             border: isActive 
-                              ? '1px solid rgba(99, 102, 241, 0.5)'
+                              ? '1px solid rgba(59, 130, 246, 0.5)'
                               : '1px solid rgba(255, 255, 255, 0.08)',
                             backdropFilter: 'blur(8px)',
-                            boxShadow: isActive ? '0 4px 12px rgba(99, 102, 241, 0.15)' : 'none',
+                            boxShadow: isActive ? '0 4px 12px rgba(59, 130, 246, 0.15)' : 'none',
                             transformStyle: 'preserve-3d',
                             perspective: '500px',
                             '&::before': {
@@ -630,15 +629,14 @@ const Header: React.FC = () => {
                               left: 0,
                               width: '100%',
                               height: '100%',
-                              background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%)',
+                              background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(244, 63, 94, 0.2) 100%)',
                               opacity: 0.5,
                               transition: 'top 0.4s ease-out',
-                            },
-                            '&:hover': {
-                              background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.3) 0%, rgba(236, 72, 153, 0.3) 100%)',
-                              border: '1px solid rgba(99, 102, 241, 0.5)',
+                            },                            '&:hover': {
+                              background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.3) 0%, rgba(244, 63, 94, 0.3) 100%)',
+                              border: '1px solid rgba(59, 130, 246, 0.5)',
                               transform: 'translateY(-2px) rotateX(5deg) rotateY(-5deg)',
-                              boxShadow: '0 6px 20px rgba(99, 102, 241, 0.25)',
+                              boxShadow: '0 6px 20px rgba(59, 130, 246, 0.25)',
                               '&::before': {
                                 top: 0,
                               }
@@ -657,11 +655,10 @@ const Header: React.FC = () => {
                                 justifyContent: 'center',
                                 width: 30,
                                 height: 30,
-                                borderRadius: '10px',
-                                background: isActive 
-                                  ? 'linear-gradient(135deg, rgba(99, 102, 241, 0.7) 0%, rgba(236, 72, 153, 0.7) 100%)'
+                                borderRadius: '10px',                                background: isActive 
+                                  ? 'linear-gradient(135deg, rgba(59, 130, 246, 0.7) 0%, rgba(244, 63, 94, 0.7) 100%)'
                                   : 'rgba(255, 255, 255, 0.08)',
-                                boxShadow: isActive ? '0 2px 10px rgba(99, 102, 241, 0.3)' : 'none',
+                                boxShadow: isActive ? '0 2px 10px rgba(59, 130, 246, 0.3)' : 'none',
                                 transition: 'all 0.3s ease',
                                 position: 'relative',
                                 overflow: 'hidden'
@@ -711,9 +708,8 @@ const Header: React.FC = () => {
                                 <Box sx={{
                                   width: 6,
                                   height: 6,
-                                  borderRadius: '50%',
-                                  background: 'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)',
-                                  boxShadow: '0 0 10px rgba(99, 102, 241, 0.6)',
+                                  borderRadius: '50%',                                  background: 'linear-gradient(135deg, #3b82f6 0%, #f43f5e 100%)',
+                                  boxShadow: '0 0 10px rgba(59, 130, 246, 0.6)',
                                   ml: 0.5,
                                 }} />
                               </motion.div>
@@ -728,11 +724,10 @@ const Header: React.FC = () => {
             ) : (
               /* Mobile Menu Button */              <motion.div
                 whileHover={{ scale: 1.05, rotate: 5 }}
-                whileTap={{ scale: 0.95, rotate: -5 }}
-                animate={{
+                whileTap={{ scale: 0.95, rotate: -5 }}                animate={{
                   boxShadow: mobileOpen 
-                    ? ['0px 0px 0px rgba(99, 102, 241, 0)', '0px 0px 15px rgba(99, 102, 241, 0.5)', '0px 0px 0px rgba(99, 102, 241, 0)']
-                    : ['0px 0px 0px rgba(99, 102, 241, 0)']
+                    ? ['0px 0px 0px rgba(59, 130, 246, 0)', '0px 0px 15px rgba(59, 130, 246, 0.5)', '0px 0px 0px rgba(59, 130, 246, 0)']
+                    : ['0px 0px 0px rgba(59, 130, 246, 0)']
                 }}
                 transition={{
                   boxShadow: {
@@ -745,11 +740,10 @@ const Header: React.FC = () => {
                 <IconButton
                   color="inherit"
                   aria-label="open drawer"
-                  onClick={handleDrawerToggle}
-                  sx={{ 
+                  onClick={handleDrawerToggle}                  sx={{ 
                     color: 'white',
-                    background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%)',
-                    border: '1px solid rgba(99, 102, 241, 0.3)',
+                    background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(244, 63, 94, 0.2) 100%)',
+                    border: '1px solid rgba(59, 130, 246, 0.3)',
                     width: 48,
                     height: 48,
                     borderRadius: '14px',
@@ -764,18 +758,17 @@ const Header: React.FC = () => {
                       left: 0,
                       width: '100%',
                       height: '100%',
-                      background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.3) 0%, rgba(236, 72, 153, 0.3) 100%)',
+                      background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.3) 0%, rgba(244, 63, 94, 0.3) 100%)',
                       opacity: 0.7,
                       transition: 'top 0.3s ease-out',
                     },
                     '&:hover': {
-                      background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.3) 0%, rgba(236, 72, 153, 0.3) 100%)',
-                      border: '1px solid rgba(99, 102, 241, 0.5)',
-                      boxShadow: '0 6px 18px rgba(99, 102, 241, 0.2)',
+                      background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.3) 0%, rgba(244, 63, 94, 0.3) 100%)',
+                      border: '1px solid rgba(59, 130, 246, 0.5)',
+                      boxShadow: '0 6px 18px rgba(59, 130, 246, 0.2)',
                       '&::before': {
                         top: 0,
-                      }
-                    },
+                      }                    },
                     transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
                   }}
                 >

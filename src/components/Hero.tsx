@@ -6,22 +6,28 @@ import {
   Container,
   CircularProgress,
   Chip,
+  Stack,
+  useTheme,
 } from '@mui/material';
-import { PlayArrow, MusicNote, Album, Pause, Psychology, AutoAwesome, Lightbulb } from '@mui/icons-material';
+import { PlayArrow, Album, Pause, AutoAwesome, MusicNote } from '@mui/icons-material';
+import { FaSpotify, FaApple, FaItunes } from 'react-icons/fa';
+import { SiTidal } from 'react-icons/si';
 import { motion } from 'framer-motion';
-import { fadeInUp, floatingAnimation, pulseAnimation } from '../utils/animations';
 import { useAudioPlayer } from '../hooks/useAudioPlayer';
 import { musicService } from '../services/musicService';
 import { MusicTrack } from '../types';
+import { gradients } from '../styles/theme';
 import PlayingCard from './PlayingCard';
 
 const Hero: React.FC = () => {
   const [latestTrack, setLatestTrack] = useState<MusicTrack | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { playerState, playTrack, togglePlayback, seekTo } = useAudioPlayer();
+  const theme = useTheme();
 
   // Load the latest track on component mount
-  useEffect(() => {    const loadLatestTrack = async () => {
+  useEffect(() => {
+    const loadLatestTrack = async () => {
       try {
         const track = await musicService.getLatestTrack();
         setLatestTrack(track);
@@ -45,10 +51,14 @@ const Hero: React.FC = () => {
         await togglePlayback();
       } else {
         // Load and play new track
+        console.log('Loading track:', latestTrack.title);
         await playTrack(latestTrack);
+        console.log('Track loaded successfully:', latestTrack.title);
       }
     } catch (error) {
       console.error('Error playing track:', error);
+      // Could add a toast notification here for user feedback
+      console.error('Failed to play track:', latestTrack.title);
     } finally {
       setIsLoading(false);
     }
@@ -62,22 +72,9 @@ const Hero: React.FC = () => {
   };
 
   const isCurrentTrackPlaying = playerState.track?.id === latestTrack?.id && playerState.isPlaying;
-  const particleVariants = {
-    animate: {
-      y: [-30, -120, -30],
-      x: [-10, 10, -10],
-      opacity: [0, 1, 0.5, 1, 0],
-      scale: [0.8, 1.2, 1, 1.1, 0.9],
-      rotate: [0, 180, 360],
-      transition: {
-        duration: 4,
-        repeat: Infinity,
-        ease: 'easeInOut',
-      }
-    }
-  };
 
-  return (    <Box
+  return (
+    <Box
       id="home"
       sx={{
         minHeight: '100vh',
@@ -85,515 +82,658 @@ const Hero: React.FC = () => {
         alignItems: 'center',
         position: 'relative',
         overflow: 'hidden',
-        pt: 8,
+        pt: { xs: 4, md: 8 },
+        pb: { xs: 8, md: 0 },
         background: `
-          radial-gradient(circle at 20% 20%, rgba(0, 245, 255, 0.08) 0%, transparent 50%),
-          radial-gradient(circle at 80% 80%, rgba(99, 102, 241, 0.12) 0%, transparent 50%),
-          radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.08) 0%, transparent 50%),
-          linear-gradient(135deg, rgba(15, 15, 35, 0.95) 0%, rgba(20, 20, 45, 0.95) 100%)
+          radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+          radial-gradient(circle at 90% 80%, rgba(244, 63, 94, 0.08) 0%, transparent 50%),
+          radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.05) 0%, transparent 70%)
         `,
-        '&::before': {
-          content: '""',
-          position: 'absolute',
-          inset: 0,
-          background: `
-            repeating-linear-gradient(
-              90deg,
-              transparent,
-              transparent 98px,
-              rgba(0, 245, 255, 0.02) 100px
-            ),
-            repeating-linear-gradient(
-              0deg,
-              transparent,
-              transparent 98px,
-              rgba(99, 102, 241, 0.02) 100px
-            )
-          `,
-          opacity: 0.3,
-          animation: 'gridMove 20s linear infinite',
-        },
-        '@keyframes gridMove': {
-          '0%': { transform: 'translate(0, 0)' },
-          '100%': { transform: 'translate(100px, 100px)' },
-        },
       }}
-    >{/* Enhanced Animated Background Particles */}
-      {[...Array(8)].map((_, i) => (
+    >
+      {/* Animated background elements */}
+      <Box sx={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
+        {/* Animated glow orbs */}
         <motion.div
-          key={i}
-          variants={particleVariants}
-          animate="animate"
-          transition={{ delay: i * 0.2 }}
+          initial={{ opacity: 0.7, x: '10%', y: '10%' }}
+          animate={{ 
+            opacity: [0.7, 0.5, 0.7],
+            x: ['10%', '15%', '10%'], 
+            y: ['10%', '15%', '10%'], 
+          }}
+          transition={{ 
+            duration: 15,
+            repeat: Infinity,
+            ease: "easeInOut" 
+          }}
           style={{
             position: 'absolute',
-            left: `${15 + i * 12}%`,
-            top: `${25 + i * 8}%`,
-            width: i % 3 === 0 ? '6px' : '4px',
-            height: i % 3 === 0 ? '6px' : '4px',            background: 
-              i % 3 === 0 ? '#6366f1' : 
-              i % 3 === 1 ? '#ec4899' : '#8b5cf6',
+            top: '10%',
+            left: '5%',
+            width: '30vw',
+            height: '30vw',
+            maxWidth: '500px',
+            maxHeight: '500px',
+            background: 'radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%)',
             borderRadius: '50%',
-            filter: 'blur(1px)',            boxShadow: `0 0 10px ${
-              i % 3 === 0 ? '#6366f1' : 
-              i % 3 === 1 ? '#ec4899' : '#8b5cf6'
-            }`,
+            filter: 'blur(50px)',
           }}
         />
-      ))}
-
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
-        <Box
-          sx={{
-            textAlign: 'center',
-            py: 8,
+        
+        <motion.div
+          initial={{ opacity: 0.7, x: '-10%', y: '-10%' }}
+          animate={{ 
+            opacity: [0.7, 0.4, 0.7],
+            x: ['-10%', '-15%', '-10%'], 
+            y: ['-10%', '-5%', '-10%'], 
           }}
-        >          {/* Artist Logo with Enhanced Animation */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.3, rotateY: 180 }}
-            animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-            transition={{ 
-              duration: 1.5, 
-              ease: 'easeOut',
-              type: 'spring',
-              stiffness: 100
+          transition={{ 
+            duration: 20,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2 
+          }}
+          style={{
+            position: 'absolute',
+            bottom: '10%',
+            right: '5%',
+            width: '35vw',
+            height: '35vw',
+            maxWidth: '600px',
+            maxHeight: '600px',
+            background: 'radial-gradient(circle, rgba(244, 63, 94, 0.12) 0%, transparent 70%)',
+            borderRadius: '50%',
+            filter: 'blur(60px)',
+          }}
+        />
+        
+        {/* Grid pattern overlay */}
+        <Box sx={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: `
+            linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px)
+          `,
+          backgroundSize: '40px 40px',
+          opacity: 0.5,
+        }} />
+      </Box>
+
+      <Container maxWidth="xl">
+        <Stack 
+          direction={{ xs: 'column', md: 'row' }} 
+          spacing={4} 
+          alignItems="center" 
+          justifyContent="space-between"
+        >
+          {/* Left side - Text content - Displayed second on mobile, first on desktop */}
+          <Box 
+            sx={{ 
+              width: '100%', 
+              maxWidth: '600px', 
+              mx: { xs: 'auto', md: 0 }, 
+              textAlign: { xs: 'center', md: 'left' },
+              order: { xs: 2, md: 1 }
             }}
-          >            <Box
-              sx={{
-                width: 320,
-                height: 320,
-                borderRadius: '50%',
-                background: 'linear-gradient(135deg, #6366f1 0%, #ec4899 50%, #8b5cf6 100%)',
-                margin: '0 auto 3rem',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                position: 'relative',
-                overflow: 'hidden',
-                '&::before': {
-                  content: '""',
-                  position: 'absolute',
-                  top: '-15px',
-                  left: '-15px',
-                  right: '-15px',
-                  bottom: '-15px',
-                  borderRadius: '50%',
-                  background: 'linear-gradient(135deg, #6366f1, #ec4899, #8b5cf6)',
-                  filter: 'blur(25px)',
-                  opacity: 0.4,
-                  zIndex: -1,
-                  animation: 'pulse 3s ease-in-out infinite',
-                },
-                '&::after': {
-                  content: '""',
-                  position: 'absolute',
-                  inset: '12px',
-                  borderRadius: '50%',
-                  background: 'rgba(15, 15, 35, 0.85)',
-                  backdropFilter: 'blur(20px)',
-                },
-                '@keyframes pulse': {
-                  '0%, 100%': { opacity: 0.4, transform: 'scale(1)' },
-                  '50%': { opacity: 0.6, transform: 'scale(1.05)' },
-                },
-              }}
-            >
+          >            <Box sx={{ mb: 2 }}>
               <motion.div
-                variants={floatingAnimation}
-                animate="animate"
-                style={{ position: 'relative', zIndex: 1 }}
-              >
-                <Box
-                  component="img"
-                  src="/LogoRBTECH_new.png"
-                  alt="RB TECH Music Logo"
-                  sx={{
-                    width: '220px',
-                    height: '220px',
-                    objectFit: 'contain',
-                    filter: 'drop-shadow(0 0 30px rgba(99, 102, 241, 0.6))',
-                    borderRadius: '50%',
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >                {/* Enhanced RB MUSIC Logo */}
+                <Box sx={{ mb: 3, display: 'flex', justifyContent: { xs: 'center', md: 'flex-start' } }}>                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                    whileHover={{ 
+                      scale: 1.05,
+                      transition: { duration: 0.6 }
+                    }}
+                  >
+                    <Box sx={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      gap: 2,
+                      position: 'relative'
+                    }}>                      {/* Circular Icon with RB */}
+                      <motion.div
+                        animate={{ 
+                          scale: [1, 1.1, 1],
+                          y: [0, -8, 0],
+                          filter: [
+                            'drop-shadow(0 2px 8px rgba(0,0,0,0.3))',
+                            'drop-shadow(0 8px 20px rgba(59, 130, 246, 0.4))',
+                            'drop-shadow(0 2px 8px rgba(0,0,0,0.3))'
+                          ]
+                        }}
+                        transition={{ 
+                          duration: 3,
+                          repeat: Infinity,
+                          ease: "easeInOut"
+                        }}
+                        whileHover={{
+                          scale: 1.15,
+                          y: -5,
+                          filter: 'drop-shadow(0 10px 25px rgba(59, 130, 246, 0.6))',
+                          transition: { duration: 0.3 }
+                        }}
+                        style={{
+                          width: '60px',
+                          height: '60px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          position: 'relative',
+                        }}
+                      >
+                        {/* RbTech Logo */}
+                        <Box
+                          component="img"
+                          src="/RB_ROUND.png"
+                          alt="RbTech Logo"
+                          sx={{
+                            width: '60px',
+                            height: '60px',
+                            objectFit: 'contain',
+                            filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.3))',
+                          }}
+                        />
+                      </motion.div>
+                      
+                      {/* MUSIC Text */}
+                      <Box>
+                        <motion.div
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.6, delay: 0.3 }}
+                        >
+                          <Typography
+                            sx={{
+                              fontSize: { xs: '28px', md: '36px' },
+                              fontWeight: 900,
+                              background: 'linear-gradient(135deg, #3b82f6 0%, #60a5fa 50%, #f43f5e 100%)',
+                              backgroundSize: '200% auto',
+                              animation: 'textGradient 3s linear infinite',
+                              '@keyframes textGradient': {
+                                '0%': { backgroundPosition: '0% center' },
+                                '100%': { backgroundPosition: '200% center' },
+                              },
+                              WebkitBackgroundClip: 'text',
+                              WebkitTextFillColor: 'transparent',
+                              backgroundClip: 'text',
+                              letterSpacing: '2px',
+                              textShadow: '0 4px 8px rgba(0,0,0,0.2)',
+                              position: 'relative',
+                            }}
+                          >
+                            MUSIC
+                          </Typography>
+                          <motion.div
+                            animate={{ 
+                              scaleX: [0, 1, 0],
+                              opacity: [0, 1, 0]
+                            }}
+                            transition={{ 
+                              duration: 2, 
+                              repeat: Infinity, 
+                              ease: "easeInOut",
+                              delay: 1
+                            }}
+                            style={{
+                              height: '2px',
+                              background: 'linear-gradient(90deg, transparent, #3b82f6, #f43f5e, transparent)',
+                              marginTop: '4px',
+                              borderRadius: '1px',
+                            }}
+                          />
+                        </motion.div>
+                      </Box>
+                      
+                      {/* Floating particles */}
+                      {[...Array(3)].map((_, i) => (
+                        <motion.div
+                          key={i}
+                          animate={{
+                            y: [0, -20, 0],
+                            opacity: [0.3, 0.8, 0.3],
+                            scale: [0.8, 1.2, 0.8],
+                          }}
+                          transition={{
+                            duration: 2 + i * 0.5,
+                            repeat: Infinity,
+                            delay: i * 0.7,
+                            ease: "easeInOut"
+                          }}
+                          style={{
+                            position: 'absolute',
+                            right: `-${10 + i * 15}px`,
+                            top: `${20 + i * 10}px`,
+                            width: '4px',
+                            height: '4px',
+                            borderRadius: '50%',
+                            background: i % 2 === 0 ? '#3b82f6' : '#f43f5e',
+                            filter: 'blur(0.5px)',
+                          }}
+                        />
+                      ))}
+                    </Box>
+                  </motion.div>
+                </Box>
+                
+                <Chip
+                  icon={<AutoAwesome sx={{ fontSize: 16 }} />}
+                  label="AI-POWERED MUSIC PRODUCER"
+                  size="medium"
+                  sx={{ 
+                    fontWeight: 600,
+                    px: 2,
+                    py: 2.5,
+                    borderRadius: '12px',
+                    background: 'rgba(59, 130, 246, 0.1)',
+                    border: '1px solid rgba(59, 130, 246, 0.2)',
+                    mb: 3,
+                    '& .MuiChip-icon': {
+                      color: theme.palette.primary.main,
+                    }
                   }}
                 />
               </motion.div>
             </Box>
-          </motion.div>
-
-          {/* AI Badge */}
-          <motion.div
-            variants={fadeInUp}
-            initial="initial"
-            animate="animate"
-            transition={{ delay: 0.1 }}
-            style={{ marginBottom: '1rem' }}
-          >
-            <Chip
-              icon={<Psychology sx={{ color: '#00f5ff !important' }} />}
-              label="FIRST AI SONG PRODUCER"
-              variant="outlined"
-              sx={{
-                px: 2,
-                py: 0.5,
-                fontSize: '0.85rem',
-                fontWeight: 700,
-                letterSpacing: '1px',
-                background: 'linear-gradient(135deg, rgba(0, 245, 255, 0.1) 0%, rgba(99, 102, 241, 0.1) 100%)',
-                backdropFilter: 'blur(20px)',
-                border: '1px solid rgba(0, 245, 255, 0.3)',
-                color: '#00f5ff',
-                '& .MuiChip-icon': {
-                  color: '#00f5ff',
-                },
-                animation: 'glow 2s ease-in-out infinite alternate',
-                '@keyframes glow': {
-                  '0%': { 
-                    boxShadow: '0 0 20px rgba(0, 245, 255, 0.2)',
-                    border: '1px solid rgba(0, 245, 255, 0.3)'
-                  },
-                  '100%': { 
-                    boxShadow: '0 0 30px rgba(0, 245, 255, 0.4)',
-                    border: '1px solid rgba(0, 245, 255, 0.5)'
-                  },
-                },
-              }}
-            />
-          </motion.div>
-
-          {/* Main Title with Enhanced Animation */}
-          <motion.div
-            variants={fadeInUp}
-            initial="initial"
-            animate="animate"
-            whileHover={{ 
-              scale: 1.02,
-              textShadow: '0 0 60px rgba(99, 102, 241, 0.5)'
-            }}
-          >            <Typography
-              variant="h1"
-              component="h1"
-              sx={{
-                fontSize: { xs: '3rem', md: '6rem' },
-                fontWeight: 900,
-                mb: 1,
-                background: 'linear-gradient(135deg, #00f5ff 0%, #6366f1 25%, #ec4899 50%, #8b5cf6 75%, #00f5ff 100%)',
-                backgroundSize: '200% 200%',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-                textShadow: '0 0 40px rgba(99, 102, 241, 0.4)',
-                transition: 'all 0.3s ease',
-                animation: 'gradient 3s ease infinite',
-                '@keyframes gradient': {
-                  '0%': { backgroundPosition: '0% 50%' },
-                  '50%': { backgroundPosition: '100% 50%' },
-                  '100%': { backgroundPosition: '0% 50%' },
-                },
-              }}
-            >
-              RB MUSIC
-            </Typography>
             
-            {/* AI Subtitle */}
-            <Typography
-              variant="h4"
-              component="div"
-              sx={{
-                fontSize: { xs: '0.9rem', md: '1.2rem' },
-                fontWeight: 600,
-                color: '#00f5ff',
-                textTransform: 'uppercase',
-                letterSpacing: '3px',
-                mb: 2,
-                textShadow: '0 0 20px rgba(0, 245, 255, 0.5)',
-              }}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
             >
-              Artificial Intelligence · Music Production
-            </Typography>
-          </motion.div>          {/* Subtitle with Genre Updates */}
-          <motion.div
-            variants={fadeInUp}
-            initial="initial"
-            animate="animate"
-            transition={{ delay: 0.3 }}
-          >            <Typography
-              variant="h3"
-              component="h2"
-              sx={{
-                fontSize: { xs: '1.5rem', md: '2.5rem' },
-                fontWeight: 600,
-                mb: 3,
-                color: 'rgba(255, 255, 255, 0.9)',
-                textShadow: '0 2px 15px rgba(0, 0, 0, 0.4)',
-                position: 'relative',
-                '&::after': {
-                  content: '""',
-                  position: 'absolute',
-                  bottom: '-8px',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  width: '60px',
-                  height: '3px',
-                  background: 'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)',
-                  borderRadius: '2px',
-                }
-              }}
-            >
-              Hip-Hop • Acoustic
-            </Typography>
-          </motion.div>          {/* Enhanced Description */}
-          <motion.div
-            variants={fadeInUp}
-            initial="initial"
-            animate="animate"
-            transition={{ delay: 0.6 }}
-          >            <Typography
-              variant="body1"
-              sx={{
-                fontSize: { xs: '1.1rem', md: '1.3rem' },
-                mb: 4,
-                color: 'rgba(255, 255, 255, 0.8)',
-                maxWidth: '750px',
-                margin: '0 auto 2rem',
-                lineHeight: 1.8,
-                fontWeight: 400,
-                letterSpacing: '0.5px',
-              }}
-            >
-              🚀 <strong>Breaking boundaries in music creation.</strong> As the first AI song producer, 
-              we blend cutting-edge artificial intelligence with authentic musical expression. 
-              Experience the future of music where technology meets soul, creating beats that 
-              resonate with human emotions while pushing creative limits beyond imagination.
-            </Typography>
-          </motion.div>
-
-          {/* Action Buttons */}
-          <motion.div
-            variants={fadeInUp}
-            initial="initial"
-            animate="animate"
-            transition={{ delay: 0.9 }}
-          >
-            <Box sx={{ display: 'flex', gap: 3, justifyContent: 'center', flexWrap: 'wrap' }}>              <motion.div
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
+              <Typography
+                variant="h1"
+                component="h1"
+                sx={{
+                  fontSize: { xs: '2.8rem', sm: '3.5rem', md: '4rem', lg: '4.5rem' },
+                  lineHeight: 1.1,
+                  mb: 3,
+                  fontWeight: 800,
+                  letterSpacing: '-0.02em',
+                  background: 'linear-gradient(135deg, #3b82f6 0%, #60a5fa 50%, #f43f5e 100%)',
+                  backgroundSize: '200% auto',
+                  animation: 'gradient 4s linear infinite',
+                  '@keyframes gradient': {
+                    '0%': { backgroundPosition: '0% center' },
+                    '100%': { backgroundPosition: '200% center' },
+                  },
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
               >
-                <Button
+                Next-Generation Music Production
+              </Typography>
+            </motion.div>
+              <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <Typography
+                variant="body1"
+                sx={{
+                  fontSize: { xs: '1.1rem', md: '1.25rem' },
+                  mb: 4,
+                  color: 'text.secondary',
+                  maxWidth: { xs: '100%', md: '90%' },
+                  lineHeight: 1.7,
+                }}
+              >
+                Pushing the boundaries of musical creativity with advanced AI technology. 
+                Experience the fusion of artificial intelligence and human artistry through 
+                innovative compositions that define the future of sound.
+              </Typography>
+              
+              {/* Track info display */}
+              {latestTrack && (
+                <Box sx={{ 
+                  mb: 3, 
+                  p: 2, 
+                  borderRadius: '12px',
+                  background: 'rgba(59, 130, 246, 0.05)',
+                  border: '1px solid rgba(59, 130, 246, 0.1)',
+                  textAlign: { xs: 'center', md: 'left' }
+                }}>
+                  <Typography variant="body2" sx={{ color: 'primary.main', fontWeight: 600, mb: 1 }}>
+                    LATEST RELEASE
+                  </Typography>
+                  <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
+                    {latestTrack.title}
+                  </Typography>
+                  {latestTrack.artist && (
+                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                      by {latestTrack.artist}
+                    </Typography>
+                  )}
+                </Box>
+              )}
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
+              <Box sx={{ 
+                display: 'flex', 
+                gap: 2, 
+                mt: 5,
+                flexDirection: { xs: 'column', sm: 'row' },
+                justifyContent: { xs: 'center', md: 'flex-start' },
+              }}>                <Button
                   variant="contained"
                   size="large"
-                  startIcon={
-                    isLoading ? (
-                      <CircularProgress size={20} sx={{ color: 'white' }} />
-                    ) : isCurrentTrackPlaying ? (
-                      <Pause />
-                    ) : (
-                      <PlayArrow />
-                    )
-                  }
                   onClick={handlePlayLatestTrack}
                   disabled={isLoading || !latestTrack}
+                  startIcon={isLoading ? <CircularProgress size={20} color="inherit" /> : isCurrentTrackPlaying ? <Pause /> : <PlayArrow />}
                   sx={{
-                    px: 4,
-                    py: 2,
+                    py: 1.8,
+                    px: 3,
+                    borderRadius: '14px',
                     fontSize: '1.1rem',
                     fontWeight: 600,
-                    borderRadius: '50px',                    background: 'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)',
-                    boxShadow: '0 8px 32px rgba(99, 102, 241, 0.4)',
+                    background: latestTrack ? gradients.primary : 'rgba(120, 120, 120, 0.3)',
+                    boxShadow: latestTrack ? '0 10px 25px rgba(59, 130, 246, 0.3)' : '0 5px 15px rgba(0, 0, 0, 0.2)',
+                    position: 'relative',
+                    overflow: 'hidden',
+                    transition: 'all 0.3s ease',
+                    opacity: isLoading ? 0.8 : 1,
+                    '&::before': {
+                      content: '""',
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0.1) 100%)',
+                      opacity: 0,
+                      transition: 'opacity 0.3s ease',
+                    },
                     '&:hover': {
-                      background: 'linear-gradient(135deg, #8b5cf6 0%, #f472b6 100%)',
-                      boxShadow: '0 12px 40px rgba(99, 102, 241, 0.5)',
-                      transform: 'translateY(-3px)',
+                      transform: latestTrack && !isLoading ? 'translateY(-3px)' : 'none',
+                      boxShadow: latestTrack ? '0 15px 30px rgba(59, 130, 246, 0.4)' : '0 5px 15px rgba(0, 0, 0, 0.2)',
+                      '&::before': {
+                        opacity: latestTrack ? 1 : 0,
+                      }
                     },
                     '&:disabled': {
-                      background: 'rgba(99, 102, 241, 0.5)',
-                      color: 'rgba(255, 255, 255, 0.7)',
+                      background: 'rgba(120, 120, 120, 0.3)',
+                      color: 'rgba(255, 255, 255, 0.5)',
+                      boxShadow: 'none',
+                      transform: 'none',
                     },
-                    transition: 'all 0.3s ease',
+                    minWidth: { xs: '100%', sm: '180px' },
                   }}
                 >
-                  {isLoading
-                    ? 'Loading...'
-                    : isCurrentTrackPlaying
-                    ? 'Pause Track'
-                    : latestTrack
-                    ? `Try "${latestTrack.title}"`
-                    : 'Play Latest Track'}
+                  {isLoading ? 'Loading...' : isCurrentTrackPlaying ? 'Pause Track' : 'Play Latest Track'}
                 </Button>
-              </motion.div>
-
-              <motion.div
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-              >                <Button
+                
+                <Button
                   variant="outlined"
                   size="large"
-                  startIcon={<Album />}
                   onClick={handleViewDiscography}
+                  startIcon={<Album />}
                   sx={{
-                    px: 4,
-                    py: 2,
+                    py: 1.8,
+                    px: 3,
+                    borderRadius: '14px',
                     fontSize: '1.1rem',
                     fontWeight: 600,
-                    borderRadius: '50px',
-                    border: '2px solid transparent',                    background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%)',
-                    backdropFilter: 'blur(20px)',
+                    borderColor: 'rgba(59, 130, 246, 0.5)',
                     color: 'white',
+                    background: 'rgba(59, 130, 246, 0.05)',
+                    backdropFilter: 'blur(10px)',
                     '&:hover': {
-                      background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%)',
-                      border: '2px solid rgba(99, 102, 241, 0.5)',
-                      transform: 'translateY(-2px)',
+                      borderColor: theme.palette.primary.main,
+                      background: 'rgba(59, 130, 246, 0.1)',
+                      transform: 'translateY(-3px)',
                     },
-                    transition: 'all 0.3s ease',
+                    minWidth: { xs: '100%', sm: '180px' },
                   }}
                 >
                   View Discography
                 </Button>
-              </motion.div>
-            </Box>
-          </motion.div>          {/* Enhanced Floating Music Icons */}
-          <Box sx={{ position: 'absolute', top: '20%', left: '10%', display: { xs: 'none', md: 'block' } }}>
+              </Box>
+            </motion.div>
+              {/* Featured on platforms */}
             <motion.div
-              variants={floatingAnimation}
-              animate="animate"
-              transition={{ delay: 1 }}
-              whileHover={{ scale: 1.2, rotate: 10 }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
             >
-              <Psychology sx={{ 
-                fontSize: '2.5rem', 
-                color: 'rgba(0, 245, 255, 0.4)',
-                filter: 'drop-shadow(0 0 15px rgba(0, 245, 255, 0.3))'
-              }} />
+              <Box sx={{ mt: 6, opacity: 0.8 }}>
+                <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2, fontWeight: 500 }}>
+                  AVAILABLE ON MAJOR PLATFORMS
+                </Typography>
+                <Box sx={{ 
+                  display: 'flex',
+                  flexWrap: 'wrap', 
+                  gap: 3,
+                  justifyContent: { xs: 'center', md: 'flex-start' }
+                }}>
+                  {[
+                    { icon: <FaSpotify />, name: 'Spotify', url: 'https://open.spotify.com/artist/0obtHk61jktNA0D5qii2nH?si=ZJoWy3F2SHmZRga-aofysQ', color: '#1DB954' },
+                    { icon: <FaApple />, name: 'Apple Music', url: 'https://music.apple.com/be/artist/rb-ceo/1816556638', color: '#FA243C' },
+                    { icon: <FaItunes />, name: 'iTunes', url: 'https://www.apple.com/itunes/', color: '#FF5722' },
+                    { icon: <SiTidal />, name: 'Tidal', url: 'https://tidal.com/browse/artist/60707695?u', color: '#000000' },
+                    { icon: <MusicNote />, name: 'Deezer', url: 'https://www.deezer.com/en/', color: '#FEAA2D' },
+                  ].map((platform) => (
+                    <Box
+                      key={platform.name}
+                      component="a"
+                      href={platform.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: 40,
+                        height: 40,
+                        borderRadius: '10px',
+                        backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        color: platform.color,
+                        textDecoration: 'none',
+                        transition: 'all 0.3s ease',
+                        opacity: 0.7,
+                        '&:hover': {
+                          opacity: 1,
+                          transform: 'translateY(-3px) scale(1.1)',
+                          backgroundColor: `${platform.color}15`,
+                          borderColor: platform.color,
+                          boxShadow: `0 8px 25px ${platform.color}30`,
+                        },
+                        '& svg': {
+                          fontSize: '1.4rem',
+                        }
+                      }}
+                    >
+                      {platform.icon}
+                    </Box>
+                  ))}
+                </Box>
+              </Box>
             </motion.div>
           </Box>
-
-          <Box sx={{ position: 'absolute', bottom: '30%', right: '15%', display: { xs: 'none', md: 'block' } }}>
+          
+          {/* Right side - Artwork display - Displayed first on mobile, second on desktop */}
+          <Box sx={{ width: '100%', maxWidth: '600px', order: { xs: 1, md: 2 } }}>
             <motion.div
-              variants={floatingAnimation}
-              animate="animate"
-              transition={{ delay: 1.5 }}
-              whileHover={{ scale: 1.2, rotate: -10 }}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.7 }}
             >
-              <AutoAwesome sx={{ 
-                fontSize: '2rem', 
-                color: 'rgba(236, 72, 153, 0.4)',
-                filter: 'drop-shadow(0 0 10px rgba(236, 72, 153, 0.3))'
-              }} />
-            </motion.div>
-          </Box>
-
-          <Box sx={{ position: 'absolute', top: '60%', left: '8%', display: { xs: 'none', md: 'block' } }}>
-            <motion.div
-              variants={floatingAnimation}
-              animate="animate"
-              transition={{ delay: 2 }}
-              whileHover={{ scale: 1.3 }}
-            >
-              <Lightbulb sx={{ 
-                fontSize: '2.2rem',
-                color: 'rgba(255, 215, 0, 0.4)',
-                filter: 'drop-shadow(0 0 10px rgba(255, 215, 0, 0.3))'
-              }} />
-            </motion.div>
-          </Box>
-
-          <Box sx={{ position: 'absolute', top: '15%', right: '12%', display: { xs: 'none', md: 'block' } }}>
-            <motion.div
-              variants={floatingAnimation}
-              animate="animate"
-              transition={{ delay: 2.5 }}
-              whileHover={{ scale: 1.3 }}
-            >
-              <MusicNote sx={{ 
-                fontSize: '2.5rem',
-                color: 'rgba(99, 102, 241, 0.3)',
-                filter: 'drop-shadow(0 0 10px rgba(99, 102, 241, 0.2))'
-              }} />
-            </motion.div>
-          </Box>
-
-          {/* Stats Section */}
-          <motion.div
-            variants={fadeInUp}
-            initial="initial"
-            animate="animate"
-            transition={{ delay: 1.2 }}
-          >            <Box 
-              sx={{ 
-                display: 'grid',
-                gridTemplateColumns: { 
-                  xs: 'repeat(2, 1fr)', 
-                  md: 'repeat(4, 1fr)' 
-                },
-                gap: { xs: 3, md: 4 },
-                mt: 8,
-                maxWidth: '1000px',
-                margin: '2rem auto 0',
-              }}
-            >              {[
-                { number: '1K+', label: 'Streams' },
-                { number: '12+', label: 'Hip-Hop Tracks' },
-                { number: '9+', label: 'Acoustic Songs' },
-                { number: '3+', label: 'Albums' },
-              ].map((stat, index) => (<motion.div
-                  key={stat.label}
-                  variants={pulseAnimation}
-                  animate="animate"
-                  transition={{ delay: 1.5 + index * 0.2 }}
-                  whileHover={{ 
-                    scale: 1.1,
-                    y: -5,
-                    transition: { duration: 0.2 }
+              <Box sx={{ 
+                position: 'relative',
+                width: '100%',
+                height: { xs: '300px', sm: '400px', md: '500px' },
+                maxWidth: '600px',
+                mx: 'auto',
+              }}>                {/* Main artwork */}
+                <motion.div
+                  animate={{ 
+                    y: [0, -15, 0],
+                    scale: isCurrentTrackPlaying ? [1, 1.02, 1] : 1,
+                  }}
+                  transition={{ 
+                    y: {
+                      duration: 6, 
+                      repeat: Infinity, 
+                      repeatType: "reverse", 
+                      ease: "easeInOut"
+                    },
+                    scale: {
+                      duration: 2,
+                      repeat: isCurrentTrackPlaying ? Infinity : 0,
+                      repeatType: "reverse",
+                      ease: "easeInOut"
+                    }
+                  }}
+                  style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    zIndex: 10,
                   }}
                 >
-                  <Box sx={{ 
-                    textAlign: 'center',
-                    p: 2,
-                    borderRadius: '16px',
-                    background: 'rgba(255, 255, 255, 0.05)',
-                    backdropFilter: 'blur(10px)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    transition: 'all 0.3s ease',                    '&:hover': {
-                      background: 'rgba(99, 102, 241, 0.1)',
-                      border: '1px solid rgba(99, 102, 241, 0.3)',
-                    }
-                  }}>
-                    <Typography
-                      variant="h3"
-                      sx={{
-                        fontSize: '2.5rem',
-                        fontWeight: 800,
-                        background: 'linear-gradient(135deg, #6366f1 0%, #ec4899 50%, #8b5cf6 100%)',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        backgroundClip: 'text',
-                      }}
-                    >
-                      {stat.number}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        color: 'rgba(255, 255, 255, 0.7)',
-                        fontSize: '1rem',
-                        fontWeight: 500,
-                      }}
-                    >
-                      {stat.label}
-                    </Typography>
-                  </Box>
                 </motion.div>
-              ))}
-            </Box>          </motion.div>        </Box>
-      </Container>      {/* Enhanced Playing Card with Seek Functionality */}
-      {playerState.track && (
-        <PlayingCard
-          track={playerState.track}
-          isPlaying={playerState.isPlaying}
-          currentTime={playerState.currentTime}
-          duration={playerState.duration}
-          onTogglePlayback={togglePlayback}
-          onSeek={seekTo}
-        />
-      )}
+                
+                {/* Decorative elements */}
+                <Box sx={{ 
+                  position: 'absolute',
+                  top: '10%',
+                  right: { xs: '5%', md: '15%' },
+                  width: { xs: '100px', md: '120px' },
+                  height: { xs: '100px', md: '120px' },
+                  borderRadius: '50%',
+                  background: 'radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%)',
+                  filter: 'blur(30px)',
+                  zIndex: 1,
+                }} />
+                
+                <Box sx={{ 
+                  position: 'absolute',
+                  bottom: '15%',
+                  left: { xs: '5%', md: '15%' },
+                  width: { xs: '120px', md: '150px' },
+                  height: { xs: '120px', md: '150px' },
+                  borderRadius: '50%',
+                  background: 'radial-gradient(circle, rgba(244, 63, 94, 0.25) 0%, transparent 70%)',
+                  filter: 'blur(30px)',
+                  zIndex: 1,
+                }} />
+                
+                {/* Secondary albums positioned behind main artwork */}
+                <motion.div
+                  animate={{ 
+                    rotate: [-5, 5, -5],
+                    x: ['-5%', '0%', '-5%'],
+                  }}
+                  transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+                  style={{
+                    position: 'absolute',
+                    top: '60%',
+                    left: '15%',
+                    transform: 'translate(-50%, -50%) rotate(-15deg)',
+                    zIndex: 5,
+                  }}
+                >
+                  <Box
+                    component="img"
+                    src="/Garden.png"
+                    alt="Previous Release"
+                    sx={{
+                      width: { xs: '120px', sm: '140px', md: '180px' },
+                      height: { xs: '120px', sm: '140px', md: '180px' },
+                      borderRadius: '15px',
+                      objectFit: 'cover',
+                      boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      opacity: 0.8,
+                    }}
+                  />
+                </motion.div>
+                  <motion.div
+                  animate={{ 
+                    rotate: [5, -5, 5],
+                    x: ['5%', '0%', '5%'],
+                  }}
+                  transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                  style={{
+                    position: 'absolute',
+                    top: '30%',
+                    right: '15%',
+                    transform: 'translate(50%, -50%) rotate(15deg)',
+                    zIndex: 5,
+                  }}
+                >
+                  <Box
+                    component="img"
+                    src="/Forged_In_Time.png"
+                    alt="Another Release"
+                    sx={{
+                      width: { xs: '120px', sm: '140px', md: '180px' },
+                      height: { xs: '120px', sm: '140px', md: '180px' },
+                      borderRadius: '15px',
+                      objectFit: 'cover',
+                      boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      opacity: 0.8,
+                    }}
+                  />
+                </motion.div>
+
+                <motion.div
+                  animate={{ 
+                    rotate: [-3, 3, -3],
+                    x: ['-3%', '3%', '-3%'],
+                    y: ['2%', '-2%', '2%'],
+                  }}
+                  transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+                  style={{
+                    position: 'absolute',
+                    top: '20%',
+                    left: '10%',
+                    transform: 'translate(-50%, -50%) rotate(-25deg)',
+                    zIndex: 4,
+                  }}
+                >
+                  <Box
+                    component="img"
+                    src="/Another_Worlds_Stories_-_Cover.png"
+                    alt="Another Worlds Stories Release"
+                    sx={{
+                      width: { xs: '100px', sm: '120px', md: '160px' },
+                      height: { xs: '100px', sm: '120px', md: '160px' },
+                      borderRadius: '15px',
+                      objectFit: 'cover',
+                      boxShadow: '0 15px 35px rgba(0, 0, 0, 0.25)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      opacity: 0.75,
+                    }}
+                  />                </motion.div>
+              </Box>
+            </motion.div>          </Box>
+        </Stack>
+      </Container>
+      
+      {/* PlayingCard Component - Shows when a track is playing */}
+      <PlayingCard
+        track={playerState.track}
+        isPlaying={playerState.isPlaying}
+        currentTime={playerState.currentTime}
+        duration={playerState.duration || 30} // Default to 30 seconds for preview
+        onTogglePlayback={togglePlayback}
+        onSeek={seekTo}
+      />
     </Box>
   );
 };
