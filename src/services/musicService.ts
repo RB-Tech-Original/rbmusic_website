@@ -4,8 +4,8 @@ import { parseBlob } from 'music-metadata';
 // MP3 files available in the public folder
 const MP3_FILES = [
   {
-    filename: 'The Last Dawn.mp3',
-    path: 'The Last Dawn.mp3'
+    filename: 'Breath of Dawn.mp3',
+    path: 'Breath of Dawn.mp3'
   }
   // Add more MP3 files here as you add them to the public folder
 ];
