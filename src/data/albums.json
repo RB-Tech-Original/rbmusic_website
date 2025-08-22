@@ -155,6 +155,58 @@
           "aiGenerated": true
         }
       ]
+    },
+    {
+      "id": "elemental-rythms",
+      "title": "Elemental Rythms",
+      "year": "2025",
+      "genre": "AI Hip-Hop • Acoustic Fusion",
+      "tracks": 6,
+      "image": "/Elemental_Rythms.png",
+      "featured": true,
+      "color": "#6366f1",
+      "streams": "2K+",
+      "rating": 4.69,
+      "status": "released",
+      "aiFeatures": ["Neural Composition", "Lyrical AI", "Smart Mixing"],
+      "trackList": [
+        {
+          "title": "Breath of Dawn",
+          "duration": "3:53",
+          "featured": false,
+          "aiGenerated": true
+        },
+        {
+          "title": "Molten Heart",
+          "duration": "2:48",
+          "featured": false,
+          "aiGenerated": true
+        },
+        {
+          "title": "Depths Below",
+          "duration": "4:14",
+          "featured": false,
+          "aiGenerated": true
+        },
+        {
+          "title": "Stone's Memory",
+          "duration": "4:08",
+          "featured": false,
+          "aiGenerated": true
+        },
+        {
+          "title": "Radian Light",
+          "duration": "3:36",
+          "featured": false,
+          "aiGenerated": true
+        },
+        {
+          "title": "Veil of Darkness",
+          "duration": "4:45",
+          "featured": false,
+          "aiGenerated": true
+        }
+      ]
     }
   ]
 }
